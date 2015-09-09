@@ -1,0 +1,214 @@
+\documentclass[russian,10pt]{article}
+
+\usepackage[intlimits]{amsmath}
+\usepackage{amsthm,amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+%\usepackage{graphicx}
+\usepackage[final]{graphicx,epsfig} 
+\usepackage{longtable}
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian,english]{babel}
+\usepackage[usenames]{color}
+\usepackage{esint}
+\usepackage{bbm}
+\usepackage{styles/mystyle}
+
+
+\pdfpagewidth 14cm
+\pdfpageheight 20cm
+
+\textwidth 11cm
+\textheight 16.5cm
+\oddsidemargin 1.5cm % 1.84cm
+\topmargin 1.5cm % 1.8cm
+\footskip 1cm
+
+\hoffset -1in
+\voffset -1in
+\headheight 0pt
+\headsep 0pt
+
+\hyphenpenalty=300
+%\tolerance=800
+\binoppenalty=10000
+
+\clubpenalty=10000 \widowpenalty=10000  % подавление "висячих строк"
+\tolerance=2000  % терпимость к жидким строкам
+\righthyphenmin=2  % минимальное число символов при переносе* 
+
+% Adjust first page number according to real document position in the book.
+\setcounter{page}{1}
+
+% Dot after section number
+\makeatletter
+% In section title
+\def\@seccntformat#1{\csname the#1\endcsname.\quad}
+\makeatother
+
+%\tolerance = 2000
+
+% To place author above title
+\def\maketitle{
+  \begin{center}
+\input{title}
+  \end{center}
+}
+
+\renewcommand{\refname}{Литература}
+
+%\sloppy
+%\DeclareGraphicsRule{*}{eps}{*}{}
+\DeclareMathOperator{\diam}{diam}
+
+\graphicspath{{images/}}
+\newcommand{\imgh}[3]{\begin{figure}[!h]\center{\includegraphics[width=#1]{#2}}\caption{#3}\label{Fig:#2}\end{figure}}
+
+% Perfectly typesetted tilde for url links.
+%\def\urltilde{\kern -.15em\lower .7ex\hbox{\~{}}\kern .04em}
+
+\addto{\captionsrussian}{
+	\renewcommand{\proofname}{\bf Решение}
+}
+
+\usepackage{wasysym}
+\usepackage{verbatim}
+
+\makeatletter
+\g@addto@macro\th@definition{\thm@headpunct{.}}
+\makeatother
+\theoremstyle{definition}
+
+
+%\newtheorem{problem}{\noindent\normalsize\bfЗадача \No\!\!}
+\newtheorem{problem}{\noindent\normalsize\bf{}}[section]
+
+\renewcommand{\theproblem}{\noindent\arabic{problem}}
+
+\newtheorem*{example}{\noindent\normalsize\bf{}Пример}
+\newtheorem*{definition}{\noindent\normalsize\bf{}Определение}
+\newtheorem*{remark}{\noindent\normalsize\bf{}Замечание}
+\newtheorem{theorem}{\noindent\normalsize\bf{}Теорема}
+\newtheorem*{lemma}{\noindent\normalsize\bf{}Лемма}
+\newtheorem*{suite}{\noindent\normalsize\bf{}Следствие}
+
+
+\newtheorem*{ordre}{\noindent\normalsize\bf{}Указание}
+
+\newenvironment{solution}{\begin{proof}\vspace{1em}} {\end{proof} \vspace{2em}}
+
+\newcommand{\atoc}[1]{\addtocontents{toc}{\hspace{0.4\linewidth}#1\par}}
+
+%\newcommand{\fixme}[1]{\textcolor{red}{\noindent\normalsize\frownie{}[#1]}} %for displaying red texts
+
+\newcommand{\fixme}[1]{}
+
+
+\usepackage{enumitem}
+
+\RequirePackage{enumitem}
+\renewcommand{\alph}[1]{\asbuk{#1}} % костыль для кирилической нумерации 
+
+\setenumerate[1]{label=\alph*), fullwidth, itemindent=\parindent, 
+  listparindent=\parindent} 
+\setenumerate[2]{label=\arabic*), fullwidth, itemindent=\parindent, 
+  listparindent=\parindent, leftmargin=\parindent}
+
+\newcommand{\rg}{\ensuremath{\mathrm{rg}}}
+\newcommand{\grad}{\ensuremath{\mathrm{grad}}}
+\newcommand{\diag}{\ensuremath{\mathrm{diag}}}
+\newcommand{\const}{\ensuremath{\mathop{\mathrm{const}}}\nolimits}
+\newcommand{\Var}{\ensuremath{\mathop{\mathbb{D}}}\nolimits}
+\newcommand{\Exp}{\ensuremath{\mathrm{{\mathbb E}}}}
+\newcommand{\PR}{\ensuremath{\mathrm{{\mathbb P}}}}
+\newcommand{\Be}{\ensuremath{\mathrm{Be}}}
+\newcommand{\Po}{\ensuremath{\mathrm{Po}}}
+\newcommand{\Beta}{\ensuremath{\mathrm{Beta}}}
+\newcommand{\Dir}{\ensuremath{\mathrm{Dir}}}
+\newcommand{\Bi}{\ensuremath{\mathrm{Bi}}}
+\newcommand{\Ker}{\ensuremath{\mathrm{Ker}}}
+\newcommand{\Real}{\ensuremath{\mathrm{Re}}}
+\newcommand{\Lin}{\ensuremath{\mathrm{Lin}}}
+\newcommand{\Gl}{\ensuremath{\mathrm{Gl}}}
+\newcommand{\mes}{\ensuremath{\mathrm{mes}}}
+\newcommand{\cov}{\ensuremath{\mathrm{cov}}}
+\newcommand{\I}{\ensuremath{\mathrm{I}}}
+\newcommand{\N}{\ensuremath{\mathcal{N}}}
+\newcommand{\KL}{\ensuremath{\mathcal{KL}}}
+\newcommand{\Star}{\hspace{-6pt}*\hspace{3pt}}
+\newcommand{\DStar}{\hspace{-6pt}**\hspace{3pt}}
+\newcommand{\Nbb}{\mathbb{N}}
+
+\usepackage{watermark}
+\thiswatermark{\put(-100,-550){\includegraphics[scale=0.8]{images/guk.jpg}} }
+
+\usepackage{url}
+\makeatletter
+\g@addto@macro{\UrlBreaks}{\UrlOrds}
+\makeatother
+
+\begin{document}
+
+\selectlanguage{russian}
+
+\maketitle
+
+\atoc{Часть 1}
+
+\include{abstract}
+
+
+\include{introduction}
+
+\include{designations}
+
+\thispagestyle{empty} 
+\tableofcontents
+\newpage
+
+
+\input{standart_tasks}
+
+\input{standart/hard}
+
+\include{generative_functions}
+
+\include{zb4}
+
+\include{markov_macrosystem}
+
+\include{monte_carlo}
+
+\include{combinatorics}
+
+\atoc{$ $}
+\atoc{Часть 2}
+
+\pagenumbering{gobble}
+
+\addcontentsline{toc}{section}{9$\;\;$ Байесовские методы}
+
+\addcontentsline{toc}{section}{10$\;\;$ Неравенства концентрации меры \\ и вероятности больших уклонений}
+
+
+\addcontentsline{toc}{section}{11$\;\;$ Теория информации и кодирование}
+
+\addcontentsline{toc}{section}{12$\;\;$  Вероятностные методы в Computer Science}
+
+\addcontentsline{toc}{section}{13$\;\;$ Геометрические вероятности}
+
+\addcontentsline{toc}{section}{13$\;\;$ Основы теории случайных процессов}
+
+\addcontentsline{toc}{section}{14$\;\;$ Основы математической статистики и статистической теории обучения}
+
+\addcontentsline{toc}{section}{15$\;\;$ Оптимизация и стохастика}
+
+\include{bibliography}
+
+\section*{$ $}
+
+
+
+\end{document}

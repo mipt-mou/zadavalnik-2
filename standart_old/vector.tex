@@ -1,0 +1,203 @@
+%\subsection{Случайный вектор}
+
+
+
+\begin{problem}
+Пусть $X$ и $Y$ --- независимые случайные величины, равномерно распределенные на $(-b,b)$. 
+Найдите вероятность $q_b$ того, что уравнение $t^2+tX+Y=0$ имеет действительные корни. Докажите, что 
+существует $\lim\limits_{b\to\infty} q_b=q$. Найдите $q$. 
+\end{problem}
+
+
+\begin{problem}
+Компоненты случайного вектора имеют нормальное распределение. Следует ли из этого, что вектор имеет нормальное распределение? 
+\end{problem}
+
+\begin{problem}
+Двумерный случайный вектор $X=(X_1,X_2)$  имеет следующую функцию плотности распределения: 
+$$
+f(x_1,x_2)=\begin{cases}
+\dfrac{c}{\sqrt{x_1^2+x_2^2}}, \text{ при } x_1^2+x_2^2\leqslant 1 , \\
+\quad 0, \quad\text{ иначе }. 
+\end{cases}
+$$
+\begin{enumerate}
+\item Найдите $c$;
+\item Найдите частные и условные распределения его компонент; 
+\item Являются ли они 
+\begin{enumerate}
+\item стохастически зависимыми; 
+\item коррелированными? 
+\end{enumerate}
+\end{enumerate}
+\end{problem}
+
+\begin{problem}
+Попарно некоррелируемые с.в. $\xi, \eta, \zeta$ обладают одинаковыми математическими ожиданиями и дисперсиями $\Exp\xi = \Exp\eta = \Exp\zeta = 0$, $\Var\xi = \Var\eta = \Var\zeta = \sigma^2$. Найдите $\max \Exp(\xi\eta\zeta)$ и $\min \Exp(\xi\eta\zeta)$.
+\end{problem}
+
+\begin{problem}
+Будем говорить, что  с.в. $\xi$ принадлежит классу $L_2$, если  выполнено ${\mathbb E}\xi^2<\infty$. $L_2$ является линейным пространством в котором можно задать скалярное произведение следующим образом:
+\[
+\langle \xi_1, \xi_2 \rangle = \Exp{\xi_1 \xi_2}.
+\]
+Для величин в $L_2$ введем среднеквадратичное расстояние
+\[
+\Vert \xi_1 - \xi_2 \Vert_2 = (\Exp{|\xi_1 - \xi_2|^2})^{1/2}.
+\]
+Пусть $H$ конечномерное  подпространство в евклидовом пространстве  $L_2$ и $\widehat{\xi}$ - проекция с.в. $\xi$ на подпространство $H$.
+
+\begin{enumerate}
+
+\item Покажите, что если $H$ является совокупностью всех постоянных, то 
+$\widehat{\xi}  = \Exp{\xi}$ и как следствие 
+\[
+\Vert \xi - \Exp{\xi} \Vert_2 = \underset{\lambda \in H}{\min} \Vert \xi - \lambda \Vert_2;
+\] 
+
+\item Рассмотрим  последовательности с. в. $\xi_n \overset{L_2}{\longrightarrow} \xi$, $\eta_n \overset{L_2}{\longrightarrow} \eta$. Докажите, что в этом случае  $\Exp(\xi_n \eta_n) \rightarrow \Exp(\xi \eta)$. 
+
+\end{enumerate}
+
+\end{problem}
+
+\begin{remark}
+Рекомендуем также ознакомиться с аналогичными задачами \ref{condExp1}--\ref{condExp3} из раздела \ref{hard}. 
+\end{remark}
+
+\begin{problem}
+Пусть  $\xi_1$, $\xi_2$ $\in L_2$ (см. предыдущую задачу) со средними значениями $a_1$ и $a_2$, дисперсиями $\sigma_1^2$ и $\sigma_2^2$ 
+и коэффициентом корреляции $r$. Покажите, что наилучшая линейная оценка
+$\widehat{\xi_1}  = c_1 + c_2 \xi_2$ для $\xi_1$ среди всех линейных комбинаций $\eta  = \lambda_1 + \lambda_2 \xi_2$  дается формулой 
+\[
+\widehat{\xi_1}  = a_1 + r \frac{\sigma_1}{\sigma_2} (\xi_2 - a_2),
+\]
+Дайте данному выражению интерпретацию в терминах условного математического ожидания. Найдите среднеквадратичную ошибку.
+\end{problem}
+\begin{remark}
+Коэффициент корреляции задаётся формулой: 
+\[
+r = \frac{\Exp (\xi_1 - a_1) (\xi_2 - a_2)}{\sigma_1 \sigma_2}.
+\]
+\end{remark}
+
+\begin{comment}
+\begin{problem}
+Предположим, что с.в. $X\in L_2$, это означает ${\mathbb E}X^2<\infty$. Докажите, что 
+\begin{equation}
+\label{UMO}
+\| X-{\mathbb E}(X|Y_1,\ldots,Y_n)\|_{L_2}=\min\limits_{\varphi\in H} \| X-\varphi(Y_1,\ldots,Y_n)\|_{L_2} , 
+\end{equation}
+где $H$ --- подпространство пространства $L_2$ всевозможных борелевских функций $\varphi(Y_1,\ldots,Y_n)\in L_2$; 
+${\mathbb E}(X|Y_1,\ldots,Y_n)$ --- условное математическое ожидание с.в. $X$ относительно $\sigma$-алгебры, порожденной с.в. 
+$Y_1,\ldots,Y_n$, часто говорят просто относительно с.в. $Y_1,\ldots,Y_n$; 
+$$
+\| X\|_{L_2}=\sqrt{\langle X,X\rangle_{L_2}}=\sqrt{{\mathbb E}(X\cdot X)}=\sqrt{{\mathbb E}(X^2)} . 
+$$
+\end{problem}
+
+\begin{ordre}
+Покажите, что $X-{\mathbb E}^{\mathcal A}X \bot \xi,\quad \forall\xi\in H$, т.е. ${\mathbb E}^{\mathcal A}$ 
+является проектором на подпространство $H$ в $L_2$. 
+\end{ordre}
+
+
+\begin{problem}
+Докажите, что если в условиях предыдущей задачи $(X,Y_1,\ldots,Y_n)^T$ --- является нормальным случайным вектором (без ограничения 
+общности можно также считать, что $(Y_1,\ldots,Y_n)^T$  --- невырожденный нормальный случайный вектор), то в качестве $H$ можно взять 
+подпространство всевозможных линейных комбинаций с.в. $Y_1,\ldots,Y_n$. Т.е. мы можем более конкретно сказать, на каком именно 
+классе борелевских функций достигается минимум в $(\ref{UMO})$. 
+\end{problem}
+
+\begin{ordre}
+Будем искать 
+${\mathbb E}(X|Y_1,\ldots,Y_n)$ в виде 
+\begin{equation}
+\label{Gauss}
+{\mathbb E}(X|Y_1,\ldots,Y_n)=c_1 Y_1+\ldots +c_n Y_n . 
+\end{equation}
+
+Докажите следующие утверждения:
+
+\begin{enumerate}
+\item $X-c_1 Y_1-\ldots-c_n Y_n, Y_1,\ldots, Y_n$ - независимы.
+\item $X-c_1 Y_1-\ldots-c_n Y_n$ ортогонален подпространству $H$ пространства $L_2$ всевозможных борелевских функций $\varphi(Y_1,\ldots,Y_n)\in L_2$.
+\end{enumerate}
+ 
+\end{ordre}
+
+\end{comment}
+
+\begin{problem}
+$$
+x=\begin{pmatrix}
+x_1\\
+x_2\\
+x_3
+\end{pmatrix}
+\in N\left(
+\begin{pmatrix}
+2\\
+3\\
+1
+\end{pmatrix}, 
+\begin{Vmatrix}
+5 & 2 & 7\\
+2 & 5 & 7\\
+7 & 7 & 14
+\end{Vmatrix}
+\right) . 
+$$
+\begin{enumerate}
+\item Найдите распределение случайной величины $y_1=x_1+x_2-x_3$; 
+\item Найдите распределение случайной величины $y_2=x_1+x_2+x_3$; 
+\item Найдите ${\mathbb E}(y_2\, |\, x_1=5, x_2=3)$; 
+\item Найдите ${\mathbb E}(y_2\, |\, x_1=5, x_2<3)$; 
+\item Найдите ${\mathbb P}(y_2<10\, |\, x_1=5, x_2<3)$;
+
+\item Пусть $x\in N\left(m, R\right)$, где матрица $R$ -- неотрицательно определена (это означает, что характеристическая функция вектора $x$ представима в виде: $\phi_{x}(t) = \exp\left( it^{T}m-(1/2)t^{T}Rt \right)$). Найдите распределение случайного вектора $y = Ax + b$. 
+
+\end{enumerate}
+\end{problem}
+
+\begin{ordre}
+Покажите, что
+$\phi_{Ax+b}(t) = e^{ib}\phi_{x}(A^{T}t)$.
+\end{ordre}
+
+
+
+\begin{problem}
+\label{sec:ordered_seq}
+Случайный вектор $W=(W_1, W_2, \ldots, W_n)^T$ имеет плотность распределения 
+$$
+f_W(w)=\begin{cases}
+n! , & \text{ если } 0\leqslant w_1\leqslant w_2\leqslant \ldots \leqslant w_n\leqslant 1, \\
+0, & \text{ в остальных случаях }. 
+\end{cases}
+$$
+Найдите распределение вектора $U=(U_1, U_2, \ldots, U_n)^T$, если 
+$$
+U_1=W_1, \quad U_2=W_2-W_1, \ldots, U_n=W_n-W_{n-1} . 
+$$
+\end{problem}
+
+\begin{ordre}
+В общем случае: 
+$$
+U=\varphi(W) \,\Rightarrow\, f_U(u)=f_W\bigl(\varphi^{-1}(u)\bigr) \Bigl| J\Bigl( \frac{\partial W}{\partial U}\Bigr)\Bigr|,$$
+$$
+J(\cdot)=\det\Bigl( \frac{\partial \varphi_i^{-1}(u)}{\partial u_j}\Bigr) . 
+$$
+\end{ordre}
+
+
+\begin{problem}
+Спортсмен стреляет по круговой мишени. Вертикальная и горизонтальная 
+координаты точки попадания пули (при условии, что центр мишени -- начало 
+координат) -- независимые случайные величины, каждая с распределением 
+$N(0,1)$. Покажите, что расстояние от точки попадания до центра имеет 
+плотность распределения вероятностей $r\exp \left( {-{r^2} \mathord{\left/ 
+{\vphantom {{r^2} 2}} \right. \kern-\nulldelimiterspace} 2} \right)$ для 
+$r\ge 0$. Найдите медиану этого распределения.
+\end{problem}

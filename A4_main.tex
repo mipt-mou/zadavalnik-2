@@ -1,0 +1,116 @@
+\documentclass[russian,10pt,a4paper]{article}
+
+\usepackage[intlimits]{amsmath}
+\usepackage{amsthm,amsfonts}
+\usepackage{amssymb}
+\usepackage{mathrsfs}
+%\usepackage{graphicx}
+\usepackage[final]{graphicx,epsfig} 
+\usepackage{longtable}
+\usepackage{indentfirst}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian,english]{babel}
+\usepackage[usenames]{color}
+
+
+
+
+
+\hyphenpenalty=200
+\tolerance=800
+
+% Adjust first page number according to real document position in the book.
+\setcounter{page}{1}
+
+% Dot after section number
+\makeatletter
+% In section title
+\def\@seccntformat#1{\csname the#1\endcsname.\quad}
+\makeatother
+
+%\tolerance = 2000
+
+% To place author above title
+\def\maketitle{
+  \begin{center}
+\input{title}
+  \end{center}
+}
+
+\renewcommand{\refname}{Литература}
+
+%\sloppy
+%\DeclareGraphicsRule{*}{eps}{*}{}
+\DeclareMathOperator{\diam}{diam}
+
+\graphicspath{{images/}}
+\newcommand{\imgh}[3]{\begin{figure}[!h]\center{\includegraphics[width=#1]{#2}}\caption{#3}\label{Fig:#2}\end{figure}}
+
+% Perfectly typesetted tilde for url links.
+%\def\urltilde{\kern -.15em\lower .7ex\hbox{\~{}}\kern .04em}
+
+\addto{\captionsrussian}{
+    \renewcommand{\proofname}{\bf Решение. }
+}
+
+\usepackage{wasysym}
+
+\theoremstyle{definition}
+%\newtheorem{problem}{\noindent\normalsize\bfЗадача \No\!\!}
+\newtheorem{problem}{\noindent\normalsize\bf{}}[section]
+\renewcommand{\theproblem}{\arabic{problem}}
+\newtheorem{example}{\noindent\normalsize\bf{}Пример}
+\newtheorem*{definition}{\noindent\normalsize\bf{}Определение}
+\newtheorem*{remark}{\noindent\normalsize\bf{}Замечание}
+\newtheorem{theorem}{\noindent\normalsize\bf{}Теорема}
+\newtheorem{fixme}{\noindent\normalsize\bf{}\frownie{} fixme}
+\renewcommand{\thefixme}{}
+
+\newtheorem*{ordre}{\noindent\normalsize\bf{}Указание}
+
+\newenvironment{solution}{\begin{proof}\vspace{1em}} {\end{proof} \vspace{2em}}
+
+\usepackage{verbatim}
+
+
+
+\usepackage{enumitem}
+
+\RequirePackage{enumitem}
+\renewcommand{\alph}[1]{\asbuk{#1}} % костыль для кирилической нумерации 
+
+\setenumerate[1]{label=\alph*), fullwidth, itemindent=\parindent, 
+  listparindent=\parindent} 
+\setenumerate[2]{label=\arabic*), fullwidth, itemindent=\parindent, 
+  listparindent=\parindent, leftmargin=\parindent}
+
+\newcommand{\rg}{\ensuremath{\mathrm{rg}}}
+\newcommand{\grad}{\ensuremath{\mathrm{grad}}}
+\newcommand{\diag}{\ensuremath{\mathrm{diag}}}
+\newcommand{\const}{\ensuremath{\mathop{\mathrm{const}}}\nolimits}
+\newcommand{\Var}{\ensuremath{\mathop{\mathbb{D}}}\nolimits}
+\newcommand{\Exp}{\ensuremath{\mathrm{{\mathbb E}}}}
+\newcommand{\PR}{\ensuremath{\mathrm{{\mathbb P}}}}
+\newcommand{\Be}{\ensuremath{\mathrm{Be}}}
+\newcommand{\Po}{\ensuremath{\mathrm{Po}}}
+\newcommand{\Bi}{\ensuremath{\mathrm{Bi}}}
+\newcommand{\Ker}{\ensuremath{\mathrm{Ker}}}
+\newcommand{\Real}{\ensuremath{\mathrm{Re}}}
+\newcommand{\Lin}{\ensuremath{\mathrm{Lin}}}
+\newcommand{\Gl}{\ensuremath{\mathrm{Gl}}}
+\newcommand{\mes}{\ensuremath{\mathrm{mes}}}
+\newcommand{\cov}{\ensuremath{\mathrm{cov}}}
+
+
+\begin{document}
+
+\selectlanguage{russian}
+
+
+
+\include{zb4}
+
+
+
+\end{document}

@@ -1,0 +1,983 @@
+\section{Вероятностные основы математической статистики}
+\label{stats}
+
+\begin{problem}
+В байесовской теории оценивания оптимальная оценка $\widehat{\theta}$ для функции потерь $\lambda$, выборки $X$ и параметрического распределения $\PR(X|\theta)$ определяется по следующему правилу
+\[
+\widehat{\theta} = \arg\min_{\theta} \Exp_{\PR(\theta^* | X)} \lambda(\theta, \theta^*).
+\] 
+Докажите соответствие функций потерь и оптимальных оценок, приведенных в таблице
+\begin{center}
+\begin{tabular}{ c | c }
+
+функция потерь $\lambda(\theta, \theta^*)$ & оптимальная оценка \\
+\hline
+$\sum_i [\theta_i \neq \theta^*_i]$ & $\widehat{\theta}_i = \arg\max_{\theta_i}\PR(\theta_i | X)$  \\ 
+\hline
+$\sum_i (\theta_i - \theta^*_i)^2$ & $\widehat{\theta}_i = \Exp_{\PR(\theta_i | X)} \theta_i$   \\ 
+\hline
+$[\theta \neq \theta^*]$ & $\widehat{\theta} = \arg\max_{\theta}\PR(\theta | X)$  \\ 
+
+\end{tabular}
+\end{center}
+
+\end{problem}
+
+\begin{problem}[Эмпирическая функция распределения]
+Пусть ${\rm x}_{k} ,\; k=1,...,n$ -- независимые одинаково распределенные с.в. с непрерывной функцией распределения $F\left(x\right)$. Введём
+\[F\left(x;\left\{\vec{{\rm x}}\right\}_{n} \right)=\frac{1}{n} \sum _{k=1}^{n}I\left({\rm x}_{k} <x\right) , I\left({\rm x}_{k} <x\right)=\left\{\begin{array}{l} {1,\; {\rm x}_{k} <x} \\ {0,\; {\rm x}_{k} \ge x} \end{array}\right. \; .\] 
+
+\begin{enumerate}
+\item Покажите, что $F\left(x;\left\{\vec{{\rm x}}\right\}_{n} \right)\xrightarrow[{n\to \infty }]{\text{п.н.}} F\left(x\right)$ $\forall x\in {\mathbb R}$.
+
+\item (теорема Гливенко) Покажите, что 
+\begin{center}
+$\mathop{\max }\limits_{x\in {\mathbb R}} \left|F\left(x;\left\{\vec{{\rm x}}\right\}_{n} \right)-F\left(x\right)\right|\xrightarrow[{n\to \infty }]{\text{п.н.}} 0$.
+\end{center}
+
+\begin{remark}(Неравенство Дворецкого--Кифера--Вольфовица) 
+
+Имеет место более тонкий результат:
+\[P\left(\mathop{\sqrt{n} \max }\limits_{x\in {\mathbb R}} \left|F\left(x;\left\{\vec{{\rm x}}\right\}_{n} \right)-F\left(x\right)\right|\ge \varepsilon \right)\le 2e^{-2\varepsilon ^{2} } .\] 
+Этот замечание, равно как и идеи следующих трех задач, взяты из конспекта лекций Г.К. Голубева "Введение в математическую статистику".
+
+\end{remark}
+
+\item Какие из трех приведенных фактов справедливы без условия непрерывности функции $F\left(x\right)$?
+\end{enumerate}
+
+\end{problem}
+
+
+
+\begin{problem}[Бутстреп, оценка дисперсии]
+$T = T(X_1,\ldots,X_n)$ некоторая статистика i.i.d. выборки из распределения $F$.  Для оценки дисперсии $\Var_F (T)$ можно воспользоваться выборочной функцией распределения $\widehat{F}_n$:
+\[
+\Var_{\widehat{F}} (T) = \int (T - \Exp T)^2 d\widehat{F}_n(X_1) \ldots d\widehat{F}_n(X_n).
+\]
+Выражение для $\Var_{\widehat{F}} (T)$ в некоторых случаях удается подсчитать в явном виде (например при $T = \overline{X}$, $\Var_{\widehat{F}} (T) = \frac{1}{n} \sum (X - \overline{X})^2$),  но в общем случае используется метод Монте--Карло для приближенного вычисления интеграла:
+\begin{enumerate}
+\item Выполнить $B$ раз генерацию выборки $X_1^*,\ldots,X_n^* \sim \widehat{F}_n$;
+\item Вычислить значения $T_1^*,\ldots,T_B^*$;
+\item Найти оценку $\Var_{\widehat{F}} (T)$ по формуле
+\[
+V_{\text{boot}}(T) = \frac{1}{B} \sum_{b=1}^B \left( T_b^* -  \overline{T}^* \right)^2.
+\]  
+\end{enumerate}
+
+Существует также альтернативный метод оценки $\Var_F (T)$ -- \textit{метод складного ножа} -- где выборка $X_1^*,\ldots,X_{n-1}^*$ генерируется посредством поочередного выбрасывания одного из элементов выборки. 
+Обозначим за $T_{-i}$ значение статистики, подсчитанное на основе подвыборки  $X_1,\ldots,X_{i-1},X_{i+1}\ldots,X_n$, тогда оценка равна  
+\[
+V_{\text{jack}}(T) = \frac{n-1}{n} \sum_{i=1}^n \left( T_{-i} -  \overline{T} \right)^2.
+\]  
+Покажите, что оценка квантилей распределения $F$ посредством $V_{\text{boot}}$ является состоятельной ($V_{\text{boot}}(X_{(k)}) \to \Var X_{(k)} $ при $n \to \infty$), в то время как $V_{\text{jack}}(X_{(k)}) $ не является состоятельной, однако
+\[
+\frac{
+V_{\text{jack}}(X_{(k)})  }{ \Var X_{(k)} 
+} \overset{p}{\longrightarrow} 1.
+\] 
+
+\end{problem}
+
+\begin{problem}[Бутстреп, доверительные интервалы]
+Существует несколько методов оценки доверительных интервалов на основе бутстрепа (к примеру, нормальный интервал, центральный интервал, интервал на основе процентилей). Рассмотрим способ нахождения центрального интервала. 
+
+Обозначим через  $T_1^*,\ldots,T_B^*$ повторную выборку значений статистики $T (X_1^*,\ldots,X_n^*)$ на основе бутстрепа, а через $F_\triangle$ распределение случайной величины $\triangle_n = T(X_1,\ldots,X_n) - \Exp T$. Определим доверительный интервал $(a,b)$ по формуле
+\[
+a = T(X_1,\ldots,X_n) - F_\triangle^{-1} \left(1 - \frac{\alpha}{2} \right),
+\quad
+b = T(X_1,\ldots,X_n) - F_\triangle^{-1} \left( \frac{\alpha}{2} \right).
+\] 
+Убедитесь, что $\PR(a \leq  \Exp T \leq b) = 1 - \alpha$, где $\alpha$ -- заданный уровень значимости. Неизвестное распределение $F_\triangle$ можно оценить как 
+\[
+\widehat{F}_\triangle(x) = \frac{1}{B} \sum_{b=1}^B [T_b^* - T_n < x].
+\]
+Предложите способ нахождения $\widehat{F}_\triangle^{-1}(x)$, например с использованием квантилей выборки $T_1^* - T_n, \ldots, T_n^* - T_n$.
+\end{problem}
+
+\begin{problem}[Оценка максимума правдоподобия]
+Докажите приведенные ниже свойства ОМП оценок 
+\[
+\widehat{\theta} = \arg\max L(X, \theta) = \arg\max  \sum_{i=1}^{n} \log f(X_i, \theta).
+\]
+\begin{enumerate}
+\item ОМП состоятельная, то есть $\widehat{\theta} \to \theta^*$;
+\item ОМП не зависит от параметризации, то есть  при замене параметра $\eta = \eta(\theta)$, $\widehat{\eta} = \eta(\widehat{\theta})$;
+\item ОМП асимптотически нормальна 
+\[
+\frac{\widehat{\theta} - \theta^*}{\sqrt{S}} \overset{d}{\longrightarrow} \N(0, 1),
+\quad
+S  = \widehat{\Var}\big(\widehat{\theta}\big);
+\]
+\item ОМП асимптотически оптимальна (имеет наименьшую дисперсию). 
+\end{enumerate}
+
+\begin{ordre}
+Введем функцию 
+\[
+\KL_n(\theta) = \frac{1}{n} \sum_{i} \log \frac{f(X_i, \theta)}{f(X_i, \theta^*)}.
+\]
+Потребуем, чтобы имела место сходимость по вероятности равномерно по $\theta$
+\[
+\Exp_X \KL_n(\theta) \to - \KL(\theta^*, \theta) =  - \int f(x, \theta^*)  \log \frac{f(x, \theta^*)}{f(x, \theta)} dx.
+\]
+Докажите тождество
+\[
+\PR(\KL(\theta^*, \widehat{\theta}) > \KL(\theta^*, \theta^*) + \delta ) \to 0,
+\]
+из которого в случае локальной вогнутости $\KL(\theta^*, \theta)$ в окрестности нуля будет следовать состоятельность ОМП.
+
+Для доказательства асимптотической нормальности потребуем разложимость $L(\theta)$ по формуле Тейлора в точке $\theta^*$ до второго члена, тогда справедливо соотношение
+\[
+ 0 = \nabla L(\widehat{\theta}) \approx \nabla L(\theta^*) + \nabla^2 L(\theta^*) (\widehat{\theta} - \theta^*), 
+\]
+из которого следует сходимость 
+\[
+\sqrt{n} (\widehat{\theta} - \theta^*) \to \frac{ \frac{1}{\sqrt{n}} \nabla L(\theta^*) } { \frac{1}{n} \nabla^2 L(\theta^*) }. 
+\]
+Введем обозначение $Y_i = \nabla \log f(X_i, \theta)$. Покажите, что 
+\[
+\Exp (Y_i) = 0, \quad
+\Var (Y_i)  = I(\theta) = - \int \big(\nabla^2 \log f(x, \theta) \big) f(x, \theta) dx.
+\]
+Тогда из ЦПТ следует, что $\sqrt{n} \overline{Y} \to \N(0, I(\theta))$.   
+
+\end{ordre}
+
+\end{problem}
+
+\begin{problem}[Точность ОМП]
+\label{mle_square}
+Ввиду заложенной в наблюдаемые данные $X$ случайности ОМП оценка $\widehat{\theta}(X) = \arg\max L(X,\theta)$ является случайной величиной, сходящейся в пределе к истинному значению параметра $\theta^*$. Отметим, что для выборки $X$, сгенерированной при помощи модели $P$ отличной от $L(X,\theta)$, под ``истинным'' значением параметра $\theta^*$ подразумевается 
+\[
+\theta^* = \arg\max \Exp L(X,\theta)
+\]
+Такой выбор $\theta^*$ соответствует наиболее близкому распределнию из параметрического семейства $L(X,\theta)$ к распределению $P$. 
+
+Для оценки отклонения $\widehat{\theta}$ от $\theta^*$ исследуем \textit{квадратичную}  модель $L(Y,\theta)$ на примере регрессии
+\[
+Y = X^{T} \theta + \varepsilon,
+\quad 
+\dim \theta = p,
+\varepsilon \in \N(0, S).  
+\]  
+Предположим, что выборка $Y$ была сгенерирована из распределения с параметрами $\Exp Y = M_Y$, $\Var Y = S_0$, где $S_0$ может не совпадать с $S$. Докажите справедливость следующих выражений 
+\[
+D_0 (\widehat{\theta} - \theta^*) = \xi \sim \N(0, I),
+\]
+\[
+L(Y,\widehat{\theta}) - L(Y, \theta^*) = \frac{\Vert \xi \Vert^2}{2} \sim \frac{\chi^2_{p}}{2}, 
+\]
+где 
+\[
+D_0^2 = -\nabla^2 \Exp L(Y, \theta) \bigg |_{\theta^*} = X S^{-1} X^{T},
+\]
+\[
+\xi = D_0^{-1} \nabla L(\theta^*) = D_0^{-1} X S^{-1} \varepsilon,
+\]
+\[
+\theta^{*} = (X S^{-1} X^{T})^{-1} X S^{-1} M_Y, \quad \widehat{\theta} = (X S^{-1} X^{T})^{-1} X S^{-1} Y.
+\]
+
+\begin{remark}
+Отметим, что вне зависимости от распределения $Y$ для нахождения истинного значения $\theta^{*}$ достаточно знать $\Exp Y$.  Также стоит заметить, что вектор $\xi$ зависит от неизвестного параметра $\theta^{*}$  и может быть оценен с погрешностью в точке $\widehat{\theta}$ или при помощи метода бутстреп (см. задачу \ref{bootstrep}). 
+\end{remark}
+
+\end{problem}
+
+\begin{problem}
+Случайный вектор $\xi \in \mathbb{R}^p$ имеет следующую суб-гауссовскую верхнюю границу характеристической функции
+\[
+\Exp \; \text{exp} \left( \lambda \frac{\gamma^{T} \xi}{\Vert V \gamma \Vert}\right) \leq \text{exp} \left(\frac{c^2 \lambda^2}{2} \right), \quad 
+V^2 = \Var \xi.
+\]  
+Докажите следующие неравенства и найдите константы $c_1$, $c_2$.
+\[
+\forall \mu < 1: \; \text{exp} \left( \frac{\mu  \Vert \xi \Vert^2 }{2} \right) \leq c_1 \int \text{exp} \left( 
+\gamma^{T} \xi -  \frac{  \Vert \gamma \Vert^2 }{2 \mu } \right) d \gamma, 
+\]
+\[
+\PR( \Vert \xi \Vert^2 - \Exp \Vert \xi \Vert^2 > x c_2 ) \leq 2 e^{-x}.
+\]
+\end{problem}
+
+
+\begin{problem}[Приближение Лапласа]
+Чтобы исследовать отклонение ОМП оценки от истинного значения ($\widehat{\theta} - \theta^*$, a также $L(Y,\widehat{\theta}) - L(Y, \theta^*)$) для произвольной модели $L(Y, \theta)$, необходимо наложить ряд условий на функцию правдоподобия, обеспечивающих приближение  $L(Y, \theta)$ квадратичной формой $\mathbb{L}(Y, \theta)$ в эллиптической окрестности точки~$\theta^*$:
+\[
+\theta \in \Theta(r) = \{\theta: \Vert D_0 (\theta  - \theta^*) \Vert  \leq r\}.
+\]
+Наложим ограничения на первую и вторую производные $L(Y, \theta)$ в окрестности $\Theta(r)$:
+\begin{enumerate}
+\item $D^2(\theta) = - \nabla^2 \Exp_Y L(Y, \theta)$ непрерывна и  
+\[
+\Vert D_0^{-1} D^2(\theta) D_0^{-1} - I \Vert \leq \delta(r),
+\quad
+D_0(\theta) = D(\theta^*);
+\]
+\item  $\nabla \overset{o}{L}(Y, \theta)$ является суб-гауссовской с.в., т.е. существуют такие константы $\omega$ и $c$, что $\forall  \gamma_1, \gamma_2, \lambda: \; \Vert \gamma \Vert \leq 1, \; \Vert \gamma_2 \Vert \leq 1$
+\[
+\Exp_Y \text{exp} \left( \frac{\lambda}{\omega} \gamma_1^{T} D_0^{-1} \nabla^2 \overset{o}{L}(Y, \theta) D_0^{-1} \gamma_2 \right) \leq \text{exp} \left( \frac{c^2 \lambda^2}{2}\right).
+\]
+\end{enumerate}
+ 
+Покажите, что при наложенных ограничениях справедливы неасимптотические варианты теорем Фишера и Вилкса, c вероятностью не менее $1 - e^{-x}$ в окрестности $\Theta(r)$
+\[
+\Vert D_0^{-1} \left(  \nabla  L( \theta) -  \nabla  L(\theta^*) \right) - D_0 (\theta - \theta^*) \Vert \leq \diamondsuit (r,x),
+\]
+\[
+\bigg| \bigg(L(\theta) - L(\theta^*) \bigg) - \frac{(D_0(\theta - \theta^{*}))^2}{2} \bigg| \leq r \diamondsuit (r,x),
+\]
+где
+\[
+\diamondsuit (r,x) = r \delta(r) + 6 \omega c  r \sqrt{2p + 2x},
+\]
+для простой выборки характерны следующие значения констант 
+\[ 
+\quad \omega \sim \frac{1}{\sqrt{n}}, 
+\quad \delta(r) \sim \frac{r}{\sqrt{n}},
+\quad r^2 \sim (p + x).
+\]
+ 
+
+\end{problem}
+
+\begin{ordre}
+Воспользуйтесь теоремой для оценки отклонения центрированного случайного процесса $u(Y,s)$ от нуля в окрестности $\{s: d(s,s_o) < r\}$. Пусть выполнено условие 
+\[
+\Exp_Y \text{exp} \left( \lambda \frac{u(Y,s) - u(Y,s_o)}{d(s,s_o)}  \right) \leq \text{exp} \left( \frac{c^2 \lambda^2}{2}\right),
+\]
+тогда c вероятностью не менее $1 - e^{-x}$ в окрестности $\{s: d(s,s_o) < r\}$
+\[
+\frac{1}{3 c r} |u(Y, s) - u(Y, s_0)| \leq \sqrt{Q + 2x},
+\quad Q = 2p \; \text{при} \; s \in \mathbb{R}^p,
+\]
+в более общем случае $Q$ представляет собой энтропию пространства значений параметра $s$. 
+\end{ordre}
+
+\begin{problem}[Критическая размерность]
+В регрессионной модели, представленной ниже, требуется найти только первую компоненту параметра $\theta \in \mathbb{R}^p$. 
+\[
+X_i =  \begin{pmatrix}
+  \theta_1 + \Vert \theta \Vert^2 \\
+  \theta_2   \\
+  \vdots  \\
+  \theta_{p(n)}  
+ \end{pmatrix} + \varepsilon_i, 
+\quad \varepsilon_i  \in N(0, I_p), 
+\quad i = \overline{1,p}
+\]
+Положим значение истинного параметра $\theta^*$ равным нулю.
+Покажите, что  оценка максимума правдоподобия $\widehat{\theta}_1$ сходится с ростом $n$ к нулю со скоростью $n^{-1/2}$ только при $p(n) = o(\sqrt{n})$.
+\end{problem}
+
+
+
+
+\begin{problem}
+\label{ed_local_u}
+Исследуем сепарабельный процесс $U(v)$, $v \in \Upsilon$,  характеризуемый суб-экспоненциальным ограничением характеристической функции
+\[
+\Exp \text{exp} \left( \lambda \frac{U(v) - U(v')}{d(v,v')} \right) \leq e^{\nu_0^2 \lambda^2 / 2},
+\quad |\lambda| \leq g, \; d(v, v') \leq r_0, \; \nu_0 \geq 1. 
+\]
+На множестве $\Upsilon$ задана $\sigma$-конечная мера $\pi$. Введем обозначения 
+\[
+B_r(v) = \{u \in \Upsilon: d(v,u) \leq r\}, 
+\quad
+r_k = 2^{-k} r_0,
+\quad
+\pi_k(v) = \int_{B_k(u)} \pi (du), 
+\]
+\[
+M_k = \max_{v \in \Upsilon} \frac{\pi(\Upsilon)}{\pi_k(u)},
+\]
+\[
+H_1 = \sum_{k=0}^{\infty} c_k \sqrt{2 \log (2M_k)}, 
+\quad H_2 = 2 \sum_{k=0}^{\infty} c_k  \log (2M_k),
+\quad
+c_0 = \frac{1}{3}, \;
+c_k = \frac{2^{1-k}}{3}.
+\]
+
+Докажите, что с вероятностью не менее $1 - e^{-x}$ имеет место неравенство
+\[
+\frac{1}{3 \nu_0 r_0} \sup_{v \in B_{r_0}(v_0)}\{ U(v) - U(v_0)\} \leq H(x) = 
+H_1 + \sqrt{2x} + \frac{g^{-2} x + 1}{g} H_2.
+\]
+\end{problem}
+
+\begin{ordre}
+Введем замену $U(\cdot) = \nu_0^{-1} U(\cdot)$, что равносильно случаю 
+$\nu_0  = 1$, $g_0 = g\nu_0$, а также определим оператор $S_k$ по правилу
+\[
+S_k f(v_0) = \frac{1}{\pi_k(v_0)} \int_{B_k(v_0)} f(v) \pi (dv),
+\quad k \geq 0,
+\]
+\[
+S_{-1} U(v) = U(v_0) = S_k S_{k-1} \ldots S_{-1} U(v). 
+\]
+\[
+|U(v) - U(v_0)| = \lim_{k\to\infty} |S_k U(v) -  S_k S_{k-1} \ldots S_{-1} U(v)| \leq 
+\]
+\[
+\leq \lim_{k\to\infty} \sum_{i = 0}^k |S_k \ldots S_{i} (I - S_{i-1}) U(v)|  \leq \sum_{i = 0}^{\infty} \xi_i^{*},
+\]
+где
+\[
+\xi_i^{*} = \sup_{v \in B_{r_0}(v_0)} \xi_i(v),
+\quad
+ \xi_0(v) = | S_{0} U(v) - U(v_0) |,
+ \quad
+ \xi_i(v) = | S_{i} (I - S_{i-1}) U(v) |. 
+\]
+Докажите свойство
+\[
+\Exp e^{\lambda \xi_i^{*} / r_{i-1}} \leq 2M_i e^{\lambda^2/2},
+\]
+воспользуйтесь результатом задачи \ref{sub_exp} из раздела \ref{gen_func}.
+
+\end{ordre}
+
+\begin{problem}
+В контексте задачи \ref{ed_local_u} рассмотрите частный случай 
+\[
+\Upsilon  = B(r_0, v_0) = \{ v \in \mathbb{R}^p : \Vert D (v - v_0) \Vert \leq r_0 \},
+\]
+где 
+\[
+d(v,v_0) \leq \Vert D (v - v_0) \Vert.
+\]
+Докажите верхнюю оценку \[H_2 \leq  4 p\] при $p \geq 2$, а также соотношение $H_1 \leq \sqrt{H_2}$. 
+ 
+\end{problem}
+
+\begin{ordre}
+Не теряя общности, можно выполнить расчеты для случая
+\[
+v_0 = 0,
+\quad D = I_p,
+\quad r_0 = 1.
+\]
+Чтобы найти верхнюю границу $M_k$, оценим снизу величину \[\pi (B(1, 0) \cap B(r,v))\], значение которой достигает минимума при $\Vert v \Vert = 1$. 
+Рассмотрите шар $B(\rho, u)$, где $\rho = r - r^2/2$, $u = (1 - r^2/2) v$.
+Покажите, что 
+\[
+B(r, v) \supseteq B(\rho, u), 
+\quad
+\pi (B(1, 0) \cap B(\rho,u)) \geq \pi (B(\rho,u)) /2,
+\]
+откуда будет следовать, что $2M_k \leq 2^{2+kp} (1 - 2^{-k-1})^{-p}$ при $r_k = 2^{-k}$.
+\end{ordre}
+
+\begin{remark}
+При наличии регуляризатора $\Vert Gv \Vert^2$, при котором появляется дополнительное ограничение на значения параметра $v$:
+\[
+B(r, v_0) = \{ v \in \mathbb{R}^p : \Vert D (v - v_0) \Vert^2 + \Vert Gv \Vert^2 \leq r_0^2  \} 
+\] 
+в результате \textit{эффективная} размерность параметра $v$ уменьшается согласно формулам
+\[
+H_2 \leq 1+\frac{8}{3} \text{tr} [B^{-1}],
+\quad
+H_1 \leq 1 + 2 \text{tr}^{1/2} [B^{-2} \log^2 (B^2)],
+\]  
+где $B^2 =  I_p + D^{-1} G^2 D^{-1}$.
+\end{remark}
+
+\begin{problem}
+\label{ed_local_grad_u}
+
+Докажите, что из ограничения на градиент случайного процесса $U(v)$ вида
+\[
+\log \Exp \text{exp} \left\{\lambda \frac{\gamma^T \nabla U(v)}{\Vert D(v) \gamma \Vert} \right\} \leq 
+\frac{\nu_0^2 \lambda^2}{2},
+\]
+следует ограничение 
+\[
+\log \Exp \text{exp} \left\{\lambda \frac{ U(v) - U(v_0)}{\Vert D (v - v_0) \Vert} \right\} \leq 
+\frac{\nu_0^2 \lambda^2}{2},
+\]
+где
+\[
+\nu_0 \geq 1, \; |\lambda| \leq g, \; \gamma \in \mathbb{R}^p, D \succcurlyeq D(v).  
+\]
+\end{problem}
+
+\begin{ordre}
+Представьте приращение процесса $U$ в виде
+\[
+U(v, v_0) = \delta \gamma^T \int_{0}^{1} \nabla U (v_0 - t \delta \gamma) dt, 
+\quad \delta = \Vert v - v_0 \Vert, \; \gamma  = (v - v_0) / \delta.
+\]
+\end{ordre}
+
+\begin{problem}[Локализация ОМП]
+Чтобы определить границы локальной области параметра $v$ -- $B_{r}(v_0)$, вне которой с малой вероятностью выполнено неравенство
+\[
+\mathcal{U}(v) - \mathcal{U}(v_0) \geq 0, 
+\]
+разделим разности сепарабельного процесса $\mathcal{U}(v) - \mathcal{U}(v_0)$ на стохастическую $U(v, v_0)$ и детерминированную $ (- f(v, v_0, \rho))$ части. Предположим, что для $U(v, v_0)$ выполнены условия из задачи \ref{ed_local_u}, а также 
+\[
+f(v, v_0, \rho) \geq 3 \nu_0 r H \left(x + \log \left( \frac{\rho^{-1} d(v, v_0)}{r_0} \right) \right),
+\quad
+r_0 \leq  d(v, v_0) \leq r^*.
+\]
+Докажите, что с вероятностью менее $\frac{\rho}{1-\rho} e^{-x}$ имеет место неравенство
+\[
+\sup_{v \in B_{r^*}(v_0) \setminus B_{r_0}(v_0)} \{ U(v, v_0) - f(v, v_0, \rho) \} \geq 0,
+\quad
+0 < \rho \leq 1.
+\]
+\end{problem}
+
+
+\begin{ordre}
+Разбейте область $B_{r^*}(v_0) \setminus B_{r_0}(v_0)$ на слои с радиусами $r_k = r_0 \rho^{-k}$, примените для каждого слоя результат задачи \ref{ed_local_u}.
+\end{ordre}
+\begin{remark}
+Найдем область, в которой $L(\theta) - L(\theta^*) < 0$ с большой вероятностью. Данная область является дополнением к области локализации ОМП.  Пусть для 
+$\zeta(\theta) = L(\theta, Y) - \Exp_Y L(\theta, Y)$ выполнено условие
+\[
+\Exp_Y \text{exp} \left( \frac{\lambda}{\omega} \gamma_1^{T} D_0^{-1} \nabla^2 \zeta(\theta) D_0^{-1} \gamma_2 \right) \leq \text{exp} \left( \frac{\nu_0^2 \lambda^2}{2}\right), 
+\quad \Vert \gamma_1 \Vert = \Vert \gamma_2 \Vert = 1.
+\]
+Тогда из результатов задач \ref{ed_local_u} и \ref{ed_local_grad_u} следует, что в локальной области $\Vert D_0(\theta - \theta^*)\Vert \leq r$ выполнено
+\[
+ | \zeta(\theta, \theta^*) - (\theta - \theta^*)^T \nabla \zeta(\theta^*)  | \leq  6 \nu_0 H(x) w r.
+\]
+Из результата данной задачи получаем неравенство
+\[
+|L(\theta, \theta^*) - \Exp L(\theta, \theta^*) - (\theta - \theta^*)^T \nabla L(\theta^*) |\leq
+\]
+\[
+\leq 6 \nu_0  w r H \left(x + \log \left( \frac{2 r}{r_0} \right) \right) = 
+\rho(r,x) r.
+\]
+Так как
+\[
+|(\theta - \theta^*)^T \nabla L(\theta^*) | \leq r \Vert \xi \Vert,
+\]
+то из неравенств
+\[
+-2 \Exp L(\theta, \theta^*) \geq \Vert D_0(\theta, \theta^*) \Vert^2 b,
+\quad
+r^*  b(r^*) \geq 2 (\Vert \xi \Vert + \rho(r^*,x))
+\]
+получаем возможность найти радиус локальной области ОМП $r^*$.
+\end{remark}
+
+\begin{problem}
+Пусть $y(v): \mathbb{R}^p \to \mathbb{R}^q$ -- гладкий случайный процесс, причем $\Exp y(v) = 0$, $y(v_0) = 0$. Без ограничения общности можно положить $v_0 = 0$. Предположим, что для любых $\Vert \gamma \Vert = \Vert \alpha \Vert = 1$
+\[
+\log \Exp \text{exp}\left( \lambda \gamma^T \nabla y (v) \alpha \right) \leq \frac{\nu_0^2 \lambda^2}{2},
+\quad |\lambda| \leq g.
+\] 
+Докажите неравенство
+\[
+\PR \left(\sup_{\Vert v - v_0 \Vert \leq r} \Vert y(v) \Vert  > 6 \nu_0 r H(x) \right) \leq e^{-x},
+\]
+где
+\[
+H(x) = H_1 + \sqrt{2x} + \frac{g^{-2} x + 1}{g} H_2, 
+\quad H_1 = \sqrt{4(p + q)}, \; H_2 = 4(p + q). 
+\]
+\end{problem}
+
+\begin{ordre}
+Используя утверждение задачи \ref{ed_local_grad_u}, получите неравенство
+\[
+\log \Exp \text{exp}\left( \frac{\lambda}{r} \gamma^T y (v)  \right) \leq \frac{\nu_0^2 \lambda^2 \Vert v - v_0 \Vert^2}{2r^2}.
+\]
+Представьте норму вектора в виде
+\[
+\Vert y(v) \Vert = \sup_{\Vert u \Vert \leq r } \frac{1}{r} u^T y(v). 
+\]
+Получите неравенство
+\[
+\log \Exp \text{exp}\left( \frac{\lambda}{2r} (\gamma,\alpha)^T \nabla [u^T y (v)] \right) \leq \frac{\nu_0^2 \lambda^2}{2}.
+\] 
+\end{ordre}
+
+\begin{problem}[Теорема Уилкса]
+Функция правдоподобия $L(\theta, Y)$ достигает максимального  значения  при параметре $\widehat{\theta}$, $\theta^*$ -- истинные значения параметра. Введем также набор параметров $\widehat{\theta}_m$, при котором достигается минимум функции $L$ при условии, что $\forall i \in [1,m]: \; \widehat{\theta}_m(i) = \theta^*(i)$. Определим статистику 
+\[
+W(\theta, Y) = L(\widehat{\theta}, Y) -  L(\widehat{\theta}_m, Y) 
+\]
+Предполагая возможность квадратичной аппроксимации Лапласа (см. задачу \ref{laplas_approx}), докажите слабую сходимость $2W(\theta, Y)$ к распределению хи-квадрат со степенями свободы $m$ при неограниченном увеличении выборки. 
+ 
+\end{problem}
+
+\begin{problem}
+Для следующих примеров выборок, проверьте асимптотическую ненормальность ОМП оценок. Исходя из результата задачи \ref{wilks_geom} из раздела \ref{geom_prob}, докажите, что, тем не менее, имеет место сходимость статистики $W(\theta, Y)$   к распределению хи-квадрат.
+\begin{enumerate}
+\item $Y_1,\ldots,Y_n \sim N(\theta^3, I_p)$, $\widehat{\theta} = \overline{Y}^{1/3}$;
+\item $Y_i \sim \theta + \varepsilon_i$, $\PR(\varepsilon_{ik} > x) = e^{-x} $, $\widehat{\theta}_k = \min \{Y_{1k},\ldots,Y_{nk} \}$;
+\item $Y_1,\ldots,Y_n$ выборка с заданной совместной плотностью распределения 
+\[
+p(Y_1,\ldots,Y_n, y, \theta) = c e^{\left(-n \Vert y - \theta \Vert^{\gamma} - \sum_{i=1}^{n} (Y_i - y)^2 \right)}.
+\]
+\end{enumerate}
+ 
+\end{problem}
+
+\begin{ordre}
+В приведенных примерах поверхности уровня определяются как
+\begin{enumerate}
+\item $S_w = \{\theta: n \Vert \overline{Y} - \theta^3 \Vert^2 = 2w\} \approx  \overline{Y}^{1/3} - (3\overline{Y}^{2/3})^{-1} \sqrt{2w/n} S^{1/3}$, $S$~--~ единичная сфера;
+\item $S_w = \{\theta: n \sum_i (\widehat{\theta}_i - \theta_i ) = w, \; \widehat{\theta} > \theta\} =  \widehat{\theta} + (w/n) S$, $S$~--~единичный симплекс; 
+\item $S_w =  \overline{Y}  + (w/n)^{1/\gamma} S$, $S$ -- единичная сфера.
+\end{enumerate}
+\end{ordre}
+
+
+
+
+
+
+
+
+\begin{problem}[Неравенство Ван Трисса] 
+\label{van_tris}
+Пусть ${\rm x}_{k} ,\; k=1,...,n$ -- независимые одинаково распределенные с.в. с плотностью распределения $p_{\vec{{\rm x}}} \left(\vec{x},\vec{\theta }\right)$, зависящей от случайного вектора $\vec{\theta }$ (носитель распределения $\vec{{\rm x}}$ предполагается не зависящим от $\vec{\theta }$, т.е. $p_{\vec{{\rm x}}} \left(\vec{x},\vec{\theta }\right)$ - регулярное семейство), который имеет плотность распределения $\pi (\vec{\theta })$: 
+\[\mathop{\lim }\limits_{\left\| \vec{\theta }\right\| \to \infty } \left(\left\| \vec{\theta }\right\| \pi \left(\vec{\theta }\right)\right)=0.\] 
+
+Покажите (для скалярного случая когда $\vec{\theta}  \in \mathbb{R}$), 
+что для любой измеримой вектор-функции 
+$\vec{\tilde{\theta }}\left(\vec{{\rm x}}\right)$: 
+\[D_{\vec{{\rm x}},\vec{\theta }} \left[\vec{\tilde{\theta }}\left(\vec{{\rm x}}\right)\right]<\infty \] 
+имеет место неравенство:
+
+\[\Exp_{\vec{{\rm x}},\vec{\theta }} \left[\left(\vec{\tilde{\theta }}\left(\vec{{\rm x}}\right)-\vec{\theta }\right)\left(\vec{\tilde{\theta }}\left(\vec{{\rm x}}\right)-\vec{\theta }\right)^{T} \right]\succ \left[I_{p,n} +I_{\pi } \right]^{-1},\] т.е.
+
+\begin{center}
+$\Exp_{\vec{{\rm x}},\vec{\theta }} \left[\left(\vec{\tilde{\theta }}\left(\vec{{\rm x}}\right)-\vec{\theta }\right)\left(\vec{\tilde{\theta }}\left(\vec{{\rm x}}\right)-\vec{\theta }\right)^{T} \right]-\left[I_{p} +I_{\pi } \right]^{-1} $ 
+\end{center}
+-- неотрицательно определенная матрица.
+
+Здесь информационные матрицы (Фишера) рассчитываются по формулам: 
+\[I_{p,n} \mathop{=}\limits^{def} E_{\vec{{\rm x}},\vec{\theta }} \left[\frac{\partial \ln p_{\vec{{\rm x}}} \left(\vec{{\rm x}},\vec{\theta }\right)}{\partial \vec{\theta }} \left(\frac{\partial \ln p_{\vec{{\rm x}}} \left(\vec{{\rm x}},\vec{\theta }\right)}{\partial \vec{\theta }} \right)^{T} \right]=nI_{p,1} <\infty , 
+\]
+\[I_{\pi } \mathop{=}\limits^{def} E_{\vec{\theta }} \left[\frac{\partial \ln \pi \left(\vec{\theta }\right)}{\partial \vec{\theta }} \left(\frac{\partial \ln \pi \left(\vec{\theta }\right)}{\partial \vec{\theta }} \right)^{T} \right]<\infty .\] 
+
+\end{problem}
+
+\begin{remark}
+В случае неинформативного $\pi (\vec{\theta})$ (несобственное равномерное распределение на всем пространстве, которое получается предельным переходом из равномерного на шаре, при стремлении радиуса шара к бесконечности) и $E_{\vec{{\rm x}}} \left[\vec{\tilde{\theta }}\left(\vec{{\rm x}}\right)\right]\equiv \vec{\theta }$, неравенство Ван Трисса переходит в намного более известное по классическим стохастическим курсам \textit{неравенство Рао--Крамера}, которое мы приводим (для наглядности) в скалярном случае: \[D_{\vec{{\rm x}}} \left[\tilde{\theta }\left(\vec{{\rm x}}\right)\right]\ge n^{-1} E_{\vec{{\rm x}}} \left[\left({\partial \ln p_{{\rm x}} \left(x,\theta \right)\mathord{\left/ {\vphantom {\partial \ln p_{{\rm x}} \left(x,\theta \right) \partial \theta }} \right. \kern-\nulldelimiterspace} \partial \theta } \right)^{2} \right]^{-1} .\]
+
+В классе оценок, для которых смещение $b(\vec{\theta}) = E[\tilde{\theta} - \vec{\theta}] \not\equiv 0$ ненеравенство Рао-Крамера имеет вид \[D_{\vec{{\rm x}}} \left[\tilde{\theta }\left(\vec{{\rm x}}\right)\right]\ge (1 + b'(\vec{\theta}))^2 n^{-1} E_{\vec{{\rm x}}} \left[\left({\partial \ln p_{{\rm x}} \left(x,\theta \right)\mathord{\left/ {\vphantom {\partial \ln p_{{\rm x}} \left(x,\theta \right) \partial \theta }} \right. \kern-\nulldelimiterspace} \partial \theta } \right)^{2} \right]^{-1} .\] 
+\end{remark}
+
+\begin{remark}
+Hесобственная плотность распределения отличается от классического определения плотности распределение тем, что интеграл по области определения расходится. Примером несобственной плотности распределения может служить константная функция, заданная на действительной оси (обобщение равномерной плотности с бесконечным интервалом определения). 
+\end{remark}
+
+
+\begin{ordre}
+Для скалярного случая $\vec{\theta }=\theta $ воспользуйтесь неравенством Коши--(Шварца)--Буняковского: $\left\langle a,b\right\rangle ^{2} \le \left\langle a,a\right\rangle \left\langle b,b\right\rangle $, рассмотрев случай, когда
+ $\left\langle a,b\right\rangle \mathop{=}\limits^{def} E\left(ab\right)$, где $a=\tilde{\theta }\left(\vec{{\rm x}}\right)-\theta $, $b=\frac{\partial \left(\ln p_{\vec{{\rm x}}} \left(\vec{{\rm x}},\theta \right)\pi \left(\theta \right)\right)}{\partial \theta } $.
+
+\end{ordre}
+
+\begin{problem}
+$F(x)$ -- произвольная функция распределения с нулевым средним и конечным стандартным отклонением, $Y_i \in F_\theta$, где $F_\theta(x) = F(x -\theta)$, $\theta \in \mathbb{R}$. Приведите пример $F(x)$ для которого оценка $(\min Y_i + \max Y_i) / 2$ имеет меньшую дисперсию (равную $O(1/n^2)$) нежели $\overline{Y}$. Не противоречит ли приведенный пример неравенству Рао-Крамера? 
+\end{problem}
+
+\begin{remark}
+Оценка максимального правдоподобия параметра сдвига $\theta$ зачастую принимает следующий вид 
+\[
+\widehat{\theta} = \sum \limits_{i = 1}^n a_i Y_{(i)},  
+\]
+где $\sum a_i = 1$, $Y_{(i)}$ -- $i$-я порядковая статистика.
+В этом случае если $\widehat{\theta}$ отлично от $\overline{Y}$, то не более двух коэффициентов среди $a_i$ отличны от нуля: это либо $a_1$ и  $a_n$ и в этом случае элементы выборки распределены равномерно, либо $a_i$ и  $a_{i+1}$, либо только один коэффициент не нулевой.
+\end{remark}
+
+
+\begin{problem}[Байесовская оценка с квадратичным штрафом] 
+В условия предыдущей задачи введем штраф: $I(\vec{\theta'}\left(\, \cdot \, \right),\vec{\theta })$. Оценка $\vec{\tilde{\theta }}\left(\vec{{\rm x}}\right)$ вектора неизвестных параметров $\vec{\theta }$ называется \textit{байесовской}, если для любого $\vec{x}$:
+\[\vec{\tilde{\theta }}\left(\vec{x}\right)=\arg \mathop{\min }\limits_{\vec{\theta }'} \int I\left(\vec{\theta }',\vec{\theta }\right) p_{\vec{{\rm x}}} \left(\vec{x},\vec{\theta }\right)\pi \left(\vec{\theta }\right)d\vec{\theta }.\] 
+
+\begin{enumerate}
+\item(Уравнение Винера--Хопфа) Покажите, что если 
+$I\left(\vec{\theta'}\left(\, \cdot \, \right),\vec{\theta }\right)=\left\| \vec{\theta'}\left(\vec{{\rm x}}\right)-\vec{\theta }\right\| _{2}^{2} $ и $\left(\vec{{\rm x}}^T{\rm ,}\; \vec{\theta }^T\right)^T$ -- нормальный случайный вектор, то $\vec{\tilde{\theta }}\left(\vec{x}\right)=A\vec{x}+\vec{b}$ (линейная регрессия).
+
+\item Рассмотрим следующую схему эксперимента ${\rm x}_{i} =\theta +\varepsilon _{i} $, где $\varepsilon _{i} \in N\left(0,\sigma ^{2} \right)$, а $\theta \in N\left(0,\delta ^{2} \right)$, причем с.в. $\varepsilon _{i} $, $i=1,...,n$ и $\theta $ независимы в совокупности. Постройте с помощью п. a) байесовскую оценку неизвестного параметра $\theta $ (функция штрафа квадратичная). С помощью неравенства Ван Трисса исследуйте качество этой оценки. Сравните эту байесовскую оценку с байесовской оценкой в случае неинформативного априорного распределения ($\theta \in N\left(0,\delta ^{2} \right)$, $\delta ^{2} \to \infty $) -- это будет оценка метода наименьших квадратов, хорошо известная из курса  лабораторных работ по физике.
+
+\item (Байесовская регуляризация) Пусть нужно решить систему уравнений $\vec{X}=A\vec{\theta }$ относительно $\vec{\theta }$ ($m$ -- размер вектора $\vec{\theta }$ может быть много меньше $n$ -- размера вектора $\vec{X}$). Однако из-за ошибок округления, всевозможных шумов и неточностей измерений в действительности приходится решать систему $\vec{X}=A\vec{\theta }+\vec{\varepsilon }$, где $\vec{\varepsilon }\in N\left(\vec{0},\sigma ^{2} I_{n} \right)$. Считая, что $\vec{\theta }\in N\left(0,\delta ^{2} I_{m} \right)$, постройте байесовскую оценку (с квадратичным штрафом) неизвестного вектора $\vec{\theta }$. Рассмотрите два случая: $\delta ^{2} <\infty $ -- информация о локализации искомого вектора есть; $\delta ^{2} =\infty $ -- информации нет.
+
+\end{enumerate}
+
+\end{problem}
+
+\begin{remark}
+
+В лабораторных работах по физике: $y_{i} =kx_{i} +b+\varepsilon _{i} $, т.е.
+\[\vec{X}=\vec{y}, \vec{\theta }=\left(k,b\right)^{T} , A=\left(\begin{array}{cc} {x_{1} } & {...\quad x_{n} } \\ {1} & {...\quad 1} \end{array}\right)^{T} , \delta ^{2} =\infty .\] 
+Отметим,  что задача поиска байесовской оценки может быть проинтерпретирована, как поиск минимума регуляризованного (по Тихонову) функционала метода наименьших квадратов \[\bar{\theta }\left(\vec{x}\right)=\arg \mathop{\min }\limits_{\vec{\theta }} \left\{\left\| \vec{x}-A\vec{\theta }\right\| _{2}^{2} +\left({\sigma \mathord{\left/ {\vphantom {\sigma  \delta }} \right. \kern-\nulldelimiterspace} \delta } \right)^{2} \left\| \vec{\theta }\right\| _{2}^{2} \right\}\] Регуляризация крайне важна, например, в случае, когда положительно определенная матрица $A^{T} A$ плохо обусловлена (в частности, это означает, что матрица $\left(A^{T} A\right)^{-1} $ может содержать очень большие элементы). Отметим, также, что эта оценка может быть получена при помощи метода наибольшего правдоподобия Фишера: 
+
+\[\vec{\theta }_{} \left(\vec{x}\right)=\arg \mathop{\max }\limits_{\vec{\theta }} \ln \left( p_{\vec{{\rm x}}} \left(\vec{x} \mid \vec{\theta }\right) \pi(\vec{\theta})\right) =\arg \mathop{\max }\limits_{\vec{\theta }} p_{\vec{{\rm x}}} \left(\vec{x} \mid \vec{\theta }\right) \pi(\vec{\theta}).\] 
+
+\end{remark}
+
+
+\begin{problem}[Робастное оценивание или $l_{1}$--оптимизация] 
+Рассмотрим следующую схему эксперимента ${\rm x}_{i} =\theta +\varepsilon _{i} $, $i=1,...,n$, где $\theta $ -- неизвестный параметр, $\varepsilon _{i} $ -- независимые одинаково распределенные с.в. с нулевым математическим ожиданием (если математичексое ожидние не существует, то считаем, что с.в. имеют симметричное распределение относительно 0).
+
+\begin{enumerate}
+\item (Робастное оценивание) 
+Положим 
+
+\noindent $\breve{\theta }\left(\vec{x}\right)=\arg \mathop{\min }\limits_{\theta } \left\| \vec{x}-\left(\theta ,...,\theta \right)^{T} \right\| _{1} =\arg \mathop{\min }\limits_{\theta } \sum _{k=1}^{n}\left|x_{k} -\theta \right| \approx x_{\left({n\mathord{\left/ {\vphantom {n 2}} \right. \kern-\nulldelimiterspace} 2} \right)} $ -- медиана.
+\begin{comment}
+САША, ВСПОМНИТЕ ЧТО ГВОРИЛ СПОКОЙНЫЙ
+\end{comment}
+\noindent Покажите, что
+\[\sqrt{n} \cdot \left(\breve{\theta }\left(\vec{{\rm x}}\right)-\theta \right)\xrightarrow[{n\to \infty }]{d} N\left(0,\left(4\left(p_{\varepsilon } \left(0\right)\right)^{2} \right)^{-1} \right).\] 
+
+\begin{remark} 
+Отметим, что в этом  пункте с.в. $\varepsilon _{i} $ могут иметь, например, распределение Коши, для которого не существует математического ожидания. Тем не менее, среднеквадратичное отклонение $\breve{\theta }\left(\vec{{\rm x}}\right)$ от математического ожидания $\theta $ имеет порядок $\sim n^{-{1\mathord{\left/ {\vphantom {1 2}} \right. \kern-\nulldelimiterspace} 2} } $. Используя, например, неравенство Чебышёва отсюда можно заключить, что истинное значение $\theta $ лежит в интервале порядка $\sim n^{-{1\mathord{\left/ {\vphantom {1 2}} \right. \kern-\nulldelimiterspace} 2} } $ с центром в $\breve{\theta }\left(\vec{{\rm x}}\right)$. Таким образом, качество оценки неизвестного параметра вполне естественно характеризовать его дисперсией. Чем дисперсия меньше, тем оценка лучше. Это обстоятельство отчасти объясняет выбор квадратичной функции штрафа (например, в байесовском оценивании). Из неравенства Рао---Крамера следует, что для регулярных случаев такой  порядок убывания дисперсии $\sim n^{-1} $ с ростом объема выборки $n$ является типичным, и ``борьба идет'', как правило, за константу при  $n^{-1} $.
+\end{remark}
+
+\item Будем считать, что с.в. $\varepsilon _{i} \in N\left(0,\sigma ^{2} \right)$. Покажите, что оценка метода наименьших квадратов:
+\[\bar{\theta }\left(\vec{x}\right)=\arg \mathop{\min }\limits_{\theta } \left\| \vec{x}-\left(\theta ,...,\theta \right)^{T} \right\| _{2}^{2} =\arg \mathop{\min }\limits_{\theta } \sum _{k=1}^{n}\left(x_{k} -\theta \right)^{2} = \frac{1}{n} \sum _{k=1}^{n}x_{k}  \] 
+доставляет равенство в неравенстве Рао--Крамера.
+
+\item (Нерегулярное семейство) Нерегулярность семейства означает, что носитель распределения вектора $\vec{x}$ зависит от параметра, это дает возможность существования в нерегулряной модели лучших, но не робастных оценок. Пусть $\varepsilon _{i} \in R\left[-\sqrt{3} \sigma ,\sqrt{3} \sigma \right]$. Положим, $\tilde{\theta }\left(\vec{x}\right)=\frac{1}{2} \left(x_{\left(1\right)} +x_{\left(n\right)} \right)$, где $x_{\left(1\right)} =\mathop{\min }\limits_{k=1,...,n} x_{\left(k\right)} $, $x_{\left(n\right)} =\mathop{\max }\limits_{k=1,...,n} x_{\left(k\right)} $. Покажите, что 
+\[n\left(\tilde{\theta }\left(\vec{{\rm x}}\right)-\theta \right)\xrightarrow[{n\to \infty }]{P} \sigma \left(e_{1} -e_{2} \right),\] 
+где $e_{1} $, $e_{2} $ -- независимые с.в., имеющие распределение Лапласа (показательное) с параметром равным 1. Покажите, что если мы ошиблись в предположении, что $\varepsilon _{i} \in R\left[-\sqrt{3} \sigma ,\sqrt{3} \sigma \right]$, и на самом деле $\left|\varepsilon _{i} \right|$ имеет, скажем, распределение Лапласа (показательное) с параметром равным 1, то
+\[\tilde{\theta }\left(\vec{{\rm x}}\right)-\theta \xrightarrow[{n\to \infty }]{d} \ln e_{1} -\ln e_{2} +{\rm O} \left(\frac{1}{\sqrt{n} } \right).\] 
+
+\begin{remark} 
+Все приведенные выше оценки могут быть получены методом наибольшего правдоподобия, когда:  
+\begin{enumerate}
+\item $\left|\varepsilon _{i} \right|$ имеет распределения Лапласа; 
+\item $\varepsilon _{i} \in N\left(0,\sigma ^{2} \right)$; 
+\item $\varepsilon _{i} \in R\left[-\sqrt{3} \sigma ,\sqrt{3} \sigma \right]$.
+\end{enumerate}
+Метод наибольшего правдоподобия также можно понимать, как способ поиска такого значения параметра(-ов) распределения, при котором это распределение наиболее близко (в смысле расстояния Кульбака--Лейблера) к эмпирическому распределению, построенному по имеющейся выборке (данным) $\vec{{\rm x}}$ (реализации $x_{i} $ с.в. ${\rm x}_{i} $ считаются известными экспериментатору).
+
+\end{remark} 
+
+\end{enumerate}
+\end{problem}
+
+\begin{problem}[Суперэффективные оценки]
+Оценка $T_n$ некоторого параметра $\theta$ называется \textit{суперэффективной} если 
+\[
+\lim \limits_{n \to \infty}(  \sqrt{n} (T_n - \theta) )^2 \leq I^{-1}(\theta)
+\] 
+и хотя бы в одной точке $\theta$  имеет место строгое неравенство. 
+
+Для простой выборки $X_1 \ldots X_n \in N(\theta, 1)$ определим две  оценки: $\widehat{\theta}_n = \overline{X}$ (оценка максимума правдоподобия) и 
+\[
+T_n = \begin{cases}
+\widehat{\theta}_n, \quad |\widehat{\theta}_n| > n^{-1/4} \\
+\alpha \widehat{\theta}_n, \quad |\widehat{\theta}_n| \leq n^{-1/4}. \\
+\end{cases}
+\]  
+где $|\alpha| < 1$. Является ли $T_n$ суперэффективной с точкой суперэффективности $\theta = 0$?
+Для исследования качества оценки  $T_n$ в окрестности точки  $\theta = 0$  рассмотрим последовательность $\{\theta_n = c/ \sqrt{n} \}$, сходящуюся к 0. Покажите, что 
+\[
+\lim \limits_{n \to \infty}(  \sqrt{n} (T_n - \theta_n) )^2 > 1,
+\] 
+в то время как 
+\[
+\lim \limits_{n \to \infty}(  \sqrt{n} (\widehat{\theta}_n - \theta_n) )^2 \leq 1.
+\] 
+
+\end{problem}
+
+\begin{remark}
+Для проверки эффективности оценки в некотором множестве $W$ можно воспользоваться следующим правилом: для набора экспериментов $\langle \Omega_\varepsilon, \mathcal{F}_\varepsilon, \PR_\varepsilon \rangle$ оценка $\widehat{\theta}_\varepsilon$ будет \textit{асимптотически эффективной} по отношению к функциям потерь $\lambda_\varepsilon$, если равномерно по $u \in W$ существует предел 
+\[
+\lim\limits_{\varepsilon \to 0} \Exp \lambda_\varepsilon (\widehat{\theta}_\varepsilon - u) = L(u),
+\]  
+а также для любой оценки $T_\varepsilon$ и непустого открытого множества $U \subseteq W$ выполнено
+\[
+\mathop{\underline{\lim}} \limits_{\varepsilon \to 0} \sup \limits_{u \in U} \Exp \lambda_\varepsilon (T_\varepsilon - u) \geq \sup \limits_{u \in U} L(u).
+\]
+В частном случае, когда эксперимент \textit{регулярный} (достаточным условием регулярности есть существование $I(\theta)$) для любой $T_\varepsilon$ и не слишком быстро возрастающей функции  $\lambda$ справедливо неравенство
+\[
+\lim\limits_{\delta \to 0} \mathop{\underline{\lim}} \limits_{\varepsilon \to 0}  
+\sup \limits_{|u - \theta| < \delta} \Exp \lambda (c_{\theta, \varepsilon} |T_\varepsilon - u|) \geq \frac{1}{\sqrt{2 \pi}} \int  \lambda(|y|)  e^{-y^2/2} dy.
+\]
+С другой стороны, оценки максимального правдоподобия и байесовские оценки достигают равенства в последнем выражении.
+\end{remark}
+
+\begin{problem}
+Пусть $\widehat{t}_{\varepsilon, q}$ -- байесовская оценка параметра $\theta \in \mathbb{R}^k$ относительно априорной плотности $q$ и функции потерь $\lambda_\varepsilon$ для набора экспериментов  $\langle \Omega_\varepsilon, \mathcal{F}_\varepsilon, \PR_\varepsilon \rangle$. Допустим, что $\forall u \in W,  \forall q: q(u) > 0$, 
+выполнено соотношение
+\[
+\lim \limits_{\varepsilon \to 0} \sup \limits_{u \in U} \Exp \lambda_\varepsilon (\widehat{t}_{\varepsilon, q} - u) = L(u).
+\] 
+Докажите $\forall U \subseteq W,  \forall T_\varepsilon$ справедливость неравенства
+\[
+\mathop{\underline{\lim}} \limits_{\varepsilon \to 0}  
+\sup \limits_{u \in U} \Exp \lambda_\varepsilon (T_\varepsilon - u) \geq \int \limits_{U} L(u) q(u)du.
+\]
+\end{problem}
+
+\begin{problem}[Оракульное неравенство]
+\begin{enumerate}
+\item Пусть $\mbox{x}_k ,\;k=1,...,n$ -- 
+независимые одинаково распределенные с.в. $\mbox{x}_k \in N\left( {0,\sigma^2} \right)$. Покажите, что $E\left[ {\mathop {\max }\limits_{k=1,...,n}\mbox{x}_k } \right]\le \sqrt {2\sigma ^2\ln n} $.
+
+\item Покажите, что
+\[
+P\left[ {\mathop {\max }\limits_{k=1,...,n} \left| {\mbox{x}_k } \right|\ge 
+\sigma (\sqrt {2\ln n} +u) } \right]\le \frac{1}{\sqrt {\pi \ln n} }e^{-{u^2} 
+\mathord{\left/ {\vphantom {{u^2} 2}} \right. \kern-\nulldelimiterspace} 2}\quad\]
+
+\item (Sparsity, экспрессия генов) $y_k =\theta _k +\varepsilon _k $, 
+$\varepsilon _k \in N\left( {0,\sigma ^2} \right)$, $k=1,...,n$ -- 
+независимые с.в. Результаты измерений $y_k $ -- известны, параметры $\theta 
+_k $ -- неизвестны. Однако известно, что большинство компонент (правда, не 
+известно какие именно) вектора $\vec {\theta }$ -- нулевые. Предложите выбор 
+такого порога $\tau >0$, чтобы оценка неизвестных параметров
+ $\tilde {\theta }_k =y_k I\left( {\left| {y_k } \right|>\tau } \right),$ где 
+$I(\cdot)$ - индикаторная функция была бы ``наиболее разумной''.
+
+\end{enumerate}
+ \end{problem}
+ 
+\begin{ordre}
+a) 1. $\mathop {\max }\limits_{k=1,...,n}\mbox{x}_k =\lambda ^{-1}\ln \left[ {\mathop {\max }\limits_{k=1,...,n} e^{\mbox{x}_k }} \right]\le \lambda ^{-1}\ln \left[ {\sum\limits_{k=1}^n {e^{\mbox{x}_k }} } \right]$. 2.(Неравенство Йенсена) Для вогнутой 
+функции $Ef\left( \xi \right)\le f\left( {E\xi } \right)$. 3. 
+Воспользовавшись 1 и 2, оптимально подберите $\lambda $. 
+В действительности, для доказательства этой оценки не тербуется независимость, а нормальность можно заменить на субгауссовость.
+б) Воспользуйтесь 
+\textit{неравенством Буля}: $P\left( {\bigcup {U_k } } \right)\le \sum {P\left( {U_k } \right)} $. 
+
+\end{ordre}
+ 
+\begin{remark} (Оракульное неравенство) Можно показать, что 
+существует такая константа $C>0$, что при $\tau =\sigma \sqrt {2\ln n} $ и 
+числе ненулевых компонент вектора $\vec {\theta }$ равным $m\ll n$ имеет 
+место следующее (с точностью до константы не улучшаемое) неравенство:
+\[
+E\left\| {\tilde {\vec {\theta }}-\vec {\theta }} \right\|_2^2 \le C\sigma 
+^2\frac{m\ln n}{n}.
+\]
+Кроме того, если $ \underset{ k=1,...,n \; \theta _k \ne 0}{\min}  \theta _k >2\tau $, то
+с вероятностью не меньшей $ 1-1 \mathord{\left/ {\vphantom {1 {\sqrt {\pi \ln n} }}} \right. \kern-\nulldelimiterspace} {\sqrt {\pi \ln n} }$ выполняется $\tilde {\theta }_k >0\Leftrightarrow \theta _k >0$.
+
+ 
+Можно немного ``поднять'' порог $\tau $, тогда существенно улучшится 
+скорость сходимости.
+\end{remark}
+
+
+\begin{problem}[Теорема Бернштейна--фон-Мизеса]
+Пусть $\mathbb{Y} = (Y_1, ..., Y_n)$ -- независимые в совокупности, одинаково распределенные случаные величины, подчиняющиеся закону $\mathrm{Be}(p)$, причем параметр $p$ так же является случайно величиной: $p \in \mathrm{Beta}(1,1)$. Докажите, что апостериорное распределение параметра $p$ ассимптотически нормальное:
+
+$$
+p|\mathbb{Y} \rightarrow N \left(\overline{p}, \frac{1}{n}I_{p^*}^{-1} \right),
+$$ 
+где $p^* \in (0, 1)$ -- истиное значение параметра, $I_{p^*}$ -- информационная матрица Фишера, $\overline{p}$ -- средневыборочная оценка.
+
+Рассмотрим следующую последовательность экспериментов: 
+\begin{center}
+$Y_1^1$ \\
+$Y_2^1, Y_2^2$ \\ 
+\ldots \\
+$Y_n^1,\ldots, Y_n^n$,
+\end{center}
+где  $Y_k^j \in \Po(\frac{p}{k})$ независимые в совокупности одинаково распределенные случайные величины. Докажите, что:
+\[
+p|\mathbb{Y} \not\rightarrow N \left(\overline{p},\frac{1}{n}I_{\frac{p^*}{n}}^{-1} \right),
+\]
+\[
+[p]|\mathbb{Y} \rightarrow \Po(p^*).
+\]
+
+
+\end{problem}
+
+
+
+\begin{remark}
+Приведем более общую формулировку теоремы БфМ.  Ведем вспомогательные обозначения: 
+\[
+p^* = \arg \max \limits_{p \in \Theta} \Exp L(p), \quad 
+\Tilde{p} = \arg \max \limits_{p \in \Theta}  L(p) , \quad
+\PR(p | \mathbb{Y}) \propto e^{L(p)} \pi(p).
+\] 
+\[
+D_0^2 = - \bigtriangledown^2 \Exp L(p^*), \quad
+V_0^2 = \Var[\bigtriangledown L(p^*)].
+\] 
+\begin{theorem}
+Пусть $\PR_p$ -- некоторое семейство распределений с фиксированным носителем. Ковариационная функция $k_p(y, y')$ трижды непрерывно дифференцируема по $p$, а соответствующие ковариационные матрицы $K$, $K_p = \{k_p(y_i, y_j)\}$ удовлетворяют следующим условиям:
+ собственные числа $ 0 < \lambda_{min}< \lambda < \lambda_{max} < \infty$;
+$\big \Vert \frac{\partial  K_p} {\partial p_i}  \big\Vert_2 < \lambda_1 < \infty $, 
+ $\big\Vert \frac{\partial^2 K_p} { \partial p_i \partial p_j } \big\Vert_2 < \lambda_2 < \infty $, $\big\Vert \frac{ \partial^3 K_p }{ \partial p_i \partial p_j \partial p_k } \big\Vert_2 < \lambda_3 < \infty $.
+Минимальное собственное число матрицы $\frac{1}{n} D_0^2 > d_0 >0$ . Вектор $p^*$ существует.  $\exists r: \forall p \in \{\Vert V_0(p - p^*) \Vert_2 > r \}$ выполнено $\Exp L(p) - \Exp L(p^*) \neq 0$. Тогда $\exists \tau, x$, такие что с вероятностью $1 - c e^{-x}$ выполнено: 
+\[
+\big\Vert D_0 (\overline{p} - \Tilde{p}) \big\Vert_2 \leq c \tau (\dim p + x),
+\]
+\[
+\big\Vert E_{\dim p} - D_0 \sigma^2  D_0 \big\Vert_{\infty} \leq c \tau (\dim p + x),
+\]
+где  значение $\tau (\dim p + x)$ мало и уменьшается с ростом выборки,
+$E_{\dim p}$ -- единичная матрица, $c \gg \tau$ -- некоторая константа,
+\[
+\overline{p} = \Exp(p|\mathbb{Y}), \quad  \sigma^2 =  \Exp((p - \overline{p}) (p - \overline{p})^T |\mathbb{Y}).
+\] 
+Кроме того, $\forall \lambda:  \big\Vert \lambda \big\Vert_2 \leq (\dim p + x)$ выполнено: 
+\[
+\left|
+\ln \Exp \left[
+       exp\{\lambda^T \sigma^{-1}(p - \overline{p}) \} | \mathbb{Y} 
+     \right] -  \frac{ \big\Vert \lambda \big\Vert_2}{2}
+\right| \leq c \tau (\dim p + x),
+\]
+что описывает близость апостериорного распределения $p$ к нормальному распределению. 
+
+Стоит отметить, что истинное распределение может не лежать в семействе:  $\mathbb{P} \not\in (\mathbb{P}_{p})$ -- модель данных является ошибочной. В таком случае 
+$\mathbb{P}_{p^*}$ -- ближайшее распределение по метрике $\mathcal{KL}$.
+\end{theorem}
+\end{remark}
+
+
+\begin{problem}[Парадокс Байеса]
+Пусть $X_1, X_2, \ldots$ -- независимые с.в. из распределения с неизвестным параметром $p  \in [a, b]$. Можно ли ожидать, что последовательность апостериорных распределений (при равномерном априорном распределении) все более и более концентрируются около истинного значения $p$? Оказывается, что это не всегда верно.
+Приведите пример такого распределения.   
+\end{problem}
+
+\begin{ordre}
+В качестве примера можно рассмотреть следующую с.в. $X$:
+\[
+\PR(X = k) = c(1-p)p^k, \quad k = \overline{0, f(p)},
+\]
+где $f(p) \in \mathbb{N}$, $f(1/4) = f(3/4) = \infty$, $p \in [1/8, 7/8]$, $1/4$ -- истинное значение $p$, $3/4$ -- точка концентрации  апостериорных вероятностей.
+\end{ordre}
+
+
+\begin{problem}[Парадокс Стейна]
+Пусть $\mathbb{Y} = (Y_1, ..., Y_n)$, где $Y_i \in N(\theta, \sigma^2 E_k)$, $\theta \geq 0$, $E_k$ -- единичная матрица. $\hat{\theta}$ -- произвольная оценка вектора параметров $\theta$.  Для квадратичной функции потерь $\| \theta - \hat{\theta}\|^2 = \sum \limits_{i=1}^k (\theta_i - \hat{\theta}_i)^2$ обозначим через $r_{\hat{\theta}}(\theta)$ функцию риска оценки $\hat{\theta}$, то есть $r_{\hat{\theta}}(\theta) = \Exp_{\theta} \| \theta - \hat{\theta}\|^2$.  Покажите, что $\hat{\theta} = \overline{Y}$ является допустимой оценкой (см. замечание) только при $k \leq 2$.
+
+\begin{ordre}
+Сравните значения функции потерь для оценок $\overline{Y}$ и 
+\[
+\max \left(0, 1 - \frac{(k-2)^2}{\Vert \overline{Y} \Vert^2} \right)\overline{Y},
+\]
+\[
+\left(1 - \frac{(k-2)^2}{\Vert \overline{Y} \Vert^2} \right)\overline{Y}.
+\]
+\end{ordre}
+
+Пусть $Y_i \in 0.91 N(\theta, 1) + 0.09 N(\theta, 9)$. Покажите, что в этом случае медиана выборки оценивает параметр лучше, чем $\overline{Y}$.
+\end{problem}
+
+
+\begin{remark}
+Оценку параметра $\hat{\theta}_1$ называют допустимой (при заданной функции потерь), если не существует такой оценки $\hat{\theta}_2$, что при любом значении параметра $\theta$  $r_{\hat{\theta}_1}(\theta) \leq r_{\hat{\theta}_2}(\theta)$ (и хотя бы при одном значении параметра неравенство строгое).
+\end{remark}
+
+\begin{problem}
+Найдите оценку максимального правдоподобия параметра $\theta$ для выборки $\mathbb{Y} = (Y_1, ..., Y_n)$, где $Y_i \in N(\theta, c \theta^2)$, где $c>0$. 
+\end{problem}
+
+\begin{remark}
+Данный пример демонстрирует не единственность локального максимума функции правдоподобия. 
+\end{remark}
+
+\begin{problem}
+Выборка $X_1,\ldots, X_n$  состоит из независимых с.в. из распределения  $[\theta, 2\theta]$. Покажите, что оценкой максимального правдоподобия $\theta$ является $\max(X_i) / 2$.  
+\[
+\widehat{\theta} = \frac{2n+2}{2n+1} \max(X_i) / 2
+\] 
+-- есть несмещенная оценка $\theta$ с дисперсией $1/(4n^2)$.
+Найдите дисперсию более эффективной оценки оценки:
+ \[
+ \frac{n+1}{5n+4}(\min (X_i) + 2 \max(X_i)).
+ \] 
+\end{problem}
+
+\begin{remark}
+Пара $\min (X_i)$,  $\max(X_i)$ в совокупности образуют \emph{достаточную статистику} в отличие от $\max(X_i)$: т.е. при заданных значениях  $\min (X_i)$ и $\max(X_i)$ совместное распределение $X_1,\ldots, X_n$ не зависит от $\theta$. 
+\end{remark}
+
+\begin{problem}
+Проведем сравнение оценок параметра $\theta$ согласно критерию:
+\[
+\PR(| \widehat{\theta}_1 - \theta | < | \widehat{\theta}_2 - \theta |) \mathop{>} \limits^? \frac{1}{2}.
+\] 
+\begin{enumerate}
+\item Покажите, что  $X_1$ является более эффективной оценкой, нежели  $(X_1 + X_2)/2$, где $X_1$, $X_2$ имеют симметричную плотность распределения $f(x-\theta)$, 
+\[
+f(x) = \frac{3}{2} \cdot \frac{1}{(1+|x|)^4}.
+\] 
+\item Для простой выборки $X_1,\ldots, X_n$ из $N(\theta, 1)$ покажите, что оценка математического ожидания $\overline{X}$ менее эффективна нежели:
+\[
+\widehat{\theta} = 
+\begin{cases}
+\overline{X} - \frac{1}{2\sqrt{n}} \min\{\sqrt{n}\overline{X}, \text{Ф}(-\sqrt{n}\overline{X})\},  & \overline{X} \geq 0;\\
+\overline{X} + \frac{1}{2\sqrt{n}} \min\{\sqrt{n}\overline{X}, \text{Ф}(-\sqrt{n}\overline{X})\}, & \overline{X} \leq 0,
+\end{cases}
+\] 
+где $\text{Ф}$ обозначает функцию стандартного нормального распределения.
+\end{enumerate}
+\end{problem}
+
+
+\begin{problem}[Критическая размерность]
+Согласно теореме Фишера, ОМП $\tilde{\theta}$ близка к значению $\theta^*$ при условии $\dim \theta  = p_n = o(n^{1/3})$. Покажем на примере, что данное условие нельзя ослабить. Пусть искомое распределение $\PR = \Po(\mathrm{exp}{\theta^*})$, $\mathbb{Y} = (Y_1, ..., Y_n)$, где $Y_i \in \PR$. Определим параметрическое семейство $\PR_\theta$, в котором будем искать элемент наиболее близкий к  $\PR$ по метрике 
+$\mathcal{KL}$: $Y_i \in \Po(v_j)$ при $j \in \mathcal{I}_j = \{i: \lceil i p_n / n \rceil = j \}$ (будем считать, что $n / p_n \in \mathbb{N}$). Оцениваемый параметр определим как 
+\[
+\theta = \frac{1}{p_n} \sum \limits_{k = 1}^{p_n} \ln (v_j).
+\]
+Покажите, что ОМП: 
+\[
+\tilde{\theta} = \frac{1}{p_n} \sum \limits_{k = 1}^{p_n} \ln \left(\frac{S_k} {n / p_n} \right), \quad S_k = \sum \limits_{i \in \mathcal{I}_k} Y_i.
+\]
+Используя свойства экспоненциального семейства распределений (см. замечание к задаче  \ref{KL_EF} из раздела \ref{measure}), проверьте следующее неравенство: 
+\[
+\PR (\tilde{\vec{v}} \in \Theta_0(r)) \geq 1 - 4 e^{-x},
+\]
+где $\Theta_0(r) = \{\vec{v}: \mathcal{KL}(v_j, v_j^*) n /p_n \leq r, j \in \overline{1, p_n} \}$, $r = x + \ln(p_n)$.
+
+Данное неравенство позволяет ограничится областью $\Theta_0(r)$ при исследовании разности значений $\sup L(\theta)$ и $L(\theta^*)$.
+
+Покажите, что:
+
+\begin{enumerate}
+\item при $\beta_n \to 0$, $p_n \to \infty$: 
+$
+D_0(\tilde{\theta} - \theta^*) \to N(0, 1);
+$
+
+\item при $\beta_n = \beta > 0$: 
+$
+D_0(\tilde{\theta} - \theta^*) \to N(\beta/2, 1);
+$
+
+\item при $\beta_n \to \infty$, $\beta_n^2 / \sqrt{p_n} \to 0$: 
+$
+D_0(\tilde{\theta} - \theta^*) \to -\infty,
+$
+\end{enumerate}
+где $\beta_n = \sqrt{p_n^3 / n}$, $D_0^2 = -\bigtriangledown^{2} \Exp L(\theta^{*}) = p_n^{2} \beta_n^{-2}$.
+
+\end{problem}
+
+\begin{ordre}
+В пунктах а) б) в)  воспользуйтесь разложением по формуле Тейлора: 
+\[
+p_n \beta_n^{-1}(\tilde{\theta} - \theta^*) = \beta_n^{-1} \sum \limits_{j = 1}^{p_n}\ln \left(\frac{S_j} {v^* n / p_n} \right) = \beta_n^{-1} \sum \limits_{j = 1}^{p_n} \ln \left(1 + \frac{\beta_n}{\sqrt{p_n}}\gamma_j \right) = \]\[
+\frac{1}{\sqrt{p_n}} \sum \limits_{j = 1}^{p_n}\gamma_j - \frac{\beta_n}{2 p_n} \sum \limits_{j = 1}^{p_n}\gamma_j^2 + o(1),
+\]   
+применимость которой следует из неравенства, доказываемого в задаче: 
+\[
+\ln \left(\frac{S_j} {v^* n / p_n} \right) \leq \sqrt{r/p_n}. 
+\]
+
+\end{ordre}
+
+\input{ML}
+
+
+
+
+
+
+

@@ -1,0 +1,189 @@
+%\subsection{Сходимость случайных величин}
+
+
+
+\begin{problem}
+Пусть $X_n \overset{\text{ п.н. }}{\longrightarrow} X$, $Y_n \overset{\text{ п.н. }}{\longrightarrow} Y$. Доказать справедливость соотношений:
+\begin{enumerate}
+\item $a X_n + b Y_n \overset{\text{ п.н. }}{\longrightarrow} a X + b Y$, где  $a, b = const$;
+\item $|X_n| \overset{\text{ п.н. }}{\longrightarrow} |X|$;
+\item $X_n Y_n \overset{\text{ п.н. }}{\longrightarrow} XY$;
+\item Верны ли предыдущие пункты для других типов сходимостей (см. \cite{stoianov})? 
+\end{enumerate}
+
+\end{problem}
+
+\begin{problem}
+Пусть $X_n \overset{d}{\longrightarrow} a$, где $a = const$. Доказать справедливость соотношения $X_n \overset{p}{\longrightarrow} a$.
+\end{problem}
+
+\begin{problem}
+Привести пример, показывающий, что из сходимости по вероятности не следует сходимость в среднем порядка $p > 0$ $(\Exp (\xi_n - \xi)^p \to 0)$ (см. \cite{stoianov}).
+\end{problem}
+
+
+
+\begin{problem}
+Пусть в вероятностном пространстве  <$\Omega, \mathcal{F},\PR$>  $\Omega$ = [0,1), $\mathcal{F}$  -- $\sigma$-алгебра содержащая полуинтервалы вида $\Omega _{in} =[(i-1)/n,\; i/n)$,  $i = \overline{1,n}$, $n \in \mathbb{N}$  и $\PR$ -- мера  Лебега $(\forall i,n:\PR\{ \omega \in \Omega _{in} \} =1/n)$.
+
+Исследовать сходимость следующих последовательностей случайных величин 
+
+$X_{1}^{(1)} \; (\omega ),\; \; X_{2}^{(1)} \; (\omega ),\; \; X_{2}^{(2)} \; (\omega ),\; \; X_{3}^{(1)} \; (\omega ),\; \; X_{3}^{(2)} \; (\omega ),\; \; X_{3}^{(3)} \; (\omega ),\ldots $
+
+в случаях:
+
+\textit{а}) $X_{n}^{(i)} \; (\omega )=n\; \; \text{при}\; \; \omega \in \Omega _{in} ,\; X_{n}^{(i)} (\omega )=0\; \; \text{при}\; \; \omega \in \Omega \backslash \Omega _{in} ;$
+
+\textit{б}) $X_{n}^{(i)} \; (\omega )=n^{-1} \; \; \text{при} \; \omega \in \Omega _{in} ,\; X_{n}^{(i)} (\omega )=0\; \; \text{при} \; \; \omega \in \Omega \backslash \Omega _{in} ;$
+
+\textit{в}) $X_{n}^{(i)} (\omega )=n\; \; \text{при}\; \; \omega \in \Omega _{in} ,\; \, X_{n}^{(i)} \; (\omega )=n^{-1} \; \text{при}\; \; \omega \in \Omega \backslash \Omega _{in} ;$
+
+\textit{г}) $X_{n}^{(i)} \; (\omega )=n^{-1} \; \; \text{при}\; \; \omega \in \Omega _{in} ,\; X_{n}^{(i)} \; (\omega )=1-n^{-1} \; \text{при}$ $\omega \in \Omega \backslash \Omega _{in} ;$
+
+\textit{д}) $X_{n}^{(i)} \; (\omega )\in N(m_{in} ,\; \sigma _{in}^{2} ),\; \, \text{где}\; \mathop{\lim }\limits_{in\to \infty } \; m_{in} =3,\; \mathop{\lim }\limits_{in\to \infty } \sigma _{in}^{2} =1.$
+\end{problem}
+
+
+\begin{problem}(Лемма Бореля--Кантелли)
+\label{bor_kant}
+Для последовательности с.в. $\{X_k\}_{k=1}^{\infty}$  $\exists X$, что $\forall \varepsilon >0$: 
+\[
+\sum \limits_{k=1}^{\infty} \PR(|X_k - X| > \varepsilon) < \infty.
+\] 
+Докажите, что в этом случае $X_1, X_2, \ldots$ сходится к $X$ с вероятностью единица (п.н.). Справедливо также обратное утверждение для последовательности независимых в совокупности с.в. $\{X_k\}_{k=1}^{\infty}$.
+\end{problem}
+
+\begin{ordre}
+Введите вспомогательное событие $A_n^m$ -- найдется такоe $k > n$, что $|X_k - X| > 1/m$. Покажите, что 
+\[
+\PR(A^m) = \PR(\mathop{\cap} \limits_{n=1}^{\infty} A_n^m) = 0.
+\] 
+Пусть событие  $A$ заключается в том, что  \[\exists m: \forall n \exists k(n): \; |X_{n+k(n)} - X| > 1/m\] (отрицание сходимости п.н.). Убедитесь в равенстве событий  $A$ и $\cup_{m=1}^{\infty} A^m$.
+\end{ordre}
+
+\begin{problem}
+\label{limsubseq}
+Докажите следующее утверждение: если последовательность $\{\xi_n\}$ сходится  по вероятности, то из нее можно извлечь подпоследовательность  $\{\xi_{n_k}\}$, сходящуюся с вероятностью единица.   
+\end{problem}
+
+\begin{ordre}
+Выберите $n_k$ в соответствии со свойством
+\[
+\PR(|\xi_{n_{k+1}} - \xi_{n_k}| > 2^{-k}) < 2^{-k}. 
+\]
+При помощи леммы  Бореля--Кантелли установите, что ряд \[\sum_k |\xi_{n_{k+1}} - \xi_{n_k}| \] сходится на множестве с вероятностной мерой 1. Предельное значение случайной величины в точках расхождения ряда можно определить равным $0$.
+Детали доказательства можно найти в книге А.Н.~Ширяева Т.1 \cite{21}. 
+\end{ordre}
+
+
+\begin{problem}\Star
+\label{limpnnero}
+Докажите, что не существует метрики, определенной на парах случайных величин, сходимость в которой равносильна сходимости почти наверное.
+\end{problem}
+
+\begin{ordre}
+Используя результат задачи \ref{limsubseq}, придите к противоречию для последовательности, сходящейся по вероятности, но расходящейся с вероятностью 1. См. также \cite{stoianov}.
+\end{ordre}
+
+\begin{problem}
+Число $\alpha$ из отрезка $[0, 1]$ назовем нормально приближаемым рациональными числами, если найдутся $c,\varepsilon>0$ такие, что 
+при любом натуральном $q$ 
+\begin{equation*}
+\label{BorelKantel}
+\min\limits_{p\in {\mathbb Z}} \Bigl|\alpha-\frac{p}{q} \Bigr|\geqslant \frac{c}{q^{2+\varepsilon}} . 
+\end{equation*}
+Используя лемму Бореля--Кантелли (см. задачу \ref{bor_kant}), докажите, что множество нормально приближаемых чисел на отрезке $[0, 1]$ имеет Лебегову меру единица. 
+
+\end{problem}
+\begin{ordre}
+
+Зафиксируем $c$, $\varepsilon >0$ и рассмотрим множество
+\[A_{q} =\left\{\left. \alpha \in \left[0,\; 1\right]\; \right|\; \mathop{\min }\limits_{p\in {\mathbb Z}} \left|\alpha -\frac{p}{q} \right|<\frac{c}{q^{2+\varepsilon } } \right\}.\] 
+Покажите, что $\mu \left(A_{q} \right)\le {2c\mathord{\left/ {\vphantom {2c q^{1+\varepsilon } }} \right. \kern-\nulldelimiterspace} q^{1+\varepsilon } } $. Таким образом, ряд $\sum_{q=1}^{\infty} \mu \left(A_{q} \right) $ сходится. В силу леммы Бореля--Кантелли (см. задачу \ref{bor_kant}) отсюда следует нужное утверждение.
+
+\end{ordre}
+
+\begin{remark}
+
+В связи с полученным результатом, будет интересно заметить, что $\forall \alpha \in [0, 1]$ существует такая бесконечная последовательность $q_{k} $ и соответствующая ей последовательность $p_{k} $, что
+\[\left|\alpha -\frac{p_{k} }{q_{k} } \right|<\frac{1}{\sqrt{5} } \frac{1}{q_{k} ^{2} } .\] 
+В теории цепных дробей показывается, что последовательность ${p_{k} \mathord{\left/ {\vphantom {p_{k}  q_{k} }} \right. \kern-\nulldelimiterspace} q_{k} } $ -- будет подпоследовательностью последовательности подходящих дробей для числа $\alpha $. Заметим также, что константу ${1\mathord{\left/ {\vphantom {1 \sqrt{5} }} \right. \kern-\nulldelimiterspace} \sqrt{5} } $ в неравенстве уменьшить нельзя.
+
+Отметим также, что данная задача возникает в КАМ-теории (см. Синай Я.Г. Введение в эргодическую теорию. -- М.: Фазис, 1996; D. Treschev, O. Zubelevich, Introduction to the perturbation theory of Hamiltonian systems, Springer Monogr. Math., Springer-Verlag, Berlin, 2010).
+\end{remark}
+
+
+\begin{comment}
+\begin{problem}
+Докажите, что при $n\to\infty$ 
+$$
+X_n\xrightarrow{L_2} X \,\Rightarrow\, X_n\xrightarrow{L_1}X \, \Rightarrow\, X_n\xrightarrow{P}X 
+\, \Leftarrow\, X_n\xrightarrow{\text{ п.н. }}X , 
+$$
+$$
+X_n\xrightarrow{P}X \, \Rightarrow\, X_n\xrightarrow{d}X . 
+$$
+С помощью контрпримеров покажите, что никакие другие стрелки импликации в эту схему в общем случае добавить нельзя. 
+При каких дополнительных условиях можно утверждать, что 
+$$
+X_n\xrightarrow{\text{ п.н. }}X  \, \Rightarrow\, X_n\xrightarrow{L_1}X ?
+$$
+Кроме того, показать, что 
+$$
+X_n\xrightarrow{P} X \; (n\to\infty) \,\Leftrightarrow\, \rho_P(X_n,X)={\mathbb E}\Bigl( \frac{|X_n-X|}{1+|X_n-X|}\Bigr)
+\xrightarrow{n\to\infty} 0 . 
+$$
+Также показать, что 
+$$
+X_n \xrightarrow{d}c\quad \Rightarrow \quad X_n \xrightarrow{P}c, \text{ где } c=\const \text{ (не с.в.) }
+$$
+\end{problem}
+
+\begin{ordre}
+$ $
+\begin{enumerate}
+
+\item Из сходимости по распределению не следует сходимость по вероятности, а также сходимость в $L_1$, $L_2$ и почти наверное. Проанализируйте следующий контр пример.  
+
+\[
+X,Y,X,Y,\ldots
+\]
+
+ где  случайные величины $X(\omega)=\omega$ и $Y(\omega)=1-\omega$ имеют одну и ту же функцию распределения 
+$$
+F_X(x)=F_Y(x)=x\cdot {\mathbb I}_{\{ x\in[0,1]\}} . 
+$$
+
+\item Из сходимости по вероятности не следует сходимость почти наверное. Проанализируйте в качестве контр примера серию бегущих импульсов.
+ 
+$$
+X_1={\mathbb I}_{[0,1/2]},\, X_2={\mathbb I}_{[1/2,1]},\, X_3={\mathbb I}_{[0,1/4]},\, X_4={\mathbb I}_{[1/4,1/2]}, \ldots, 
+$$
+
+\item Выполнена импликация 
+$$
+X_n\xrightarrow{\text{ п.н. }}X  \, \Rightarrow\, X_n\xrightarrow{L_1}X , 
+$$
+т.е. возможен предельный переход под знаком математического ожидания, если семейство с.в. $\{ X_n\}$ является равномерно интегрируемым: 
+$$
+\sup\limits_n {\mathbb E}\bigl[ |X_n|\cdot {\mathbb I}_{\{ |X_n|>c\}} \bigr]\xrightarrow{c\to +\infty}0 . 
+$$
+
+\item 
+
+
+$\frac{|X_n-X|}{1+|X_n-X|}<1$, $\frac{|X_n-X|}{1+|X_n-X|}\leqslant |X_n-X|$. 
+
+
+\begin{multline*}
+{\mathbb E}\Bigl( \frac{|X_n-X|}{1+|X_n-X|}\Bigr)=\int\limits_{|X_n-X|\leqslant\varepsilon} 
+\frac{|X_n(\omega)-X(\omega)|}{1+|X_n(\omega)-X(\omega)|}\, P(d\omega)+\\
++\int\limits_{|X_n-X|>\varepsilon}
+\frac{|X_n(\omega)-X(\omega)|}{1+|X_n(\omega)-X(\omega)|}\, P(d\omega)
+\leqslant \varepsilon+{\mathbb P}(|X_n-X|>\varepsilon) . 
+\end{multline*}
+
+\end{enumerate}
+
+\end{ordre}
+\end{comment}
